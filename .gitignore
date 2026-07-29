@@ -5,11 +5,19 @@
 /tmp
 /out-tsc
 /bazel-out
+/.angular-cli.json
+/.ng/
 
 # Node
 /node_modules
-npm-debug.log
-yarn-error.log
+package-lock.json
+yarn.lock
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
 
 # IDEs and editors
 .idea/
@@ -36,6 +44,8 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
+*.tsbuildinfo
+/e2e/test-output/
 
 # System files
 .DS_Store
