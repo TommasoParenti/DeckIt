@@ -1,0 +1,78 @@
+<aside class="sidebar d-none d-lg-flex flex-column position-fixed top-0 start-0 vh-100 p-3 border-end">
+  <div class="sidebar-brand d-flex align-items-center gap-2 mb-4">
+    <div class="brand-text d-flex flex-column">
+      <span class="brand-name fw-bold fs-3 text-dark">DeckIt</span>
+      <span class="brand-tagline text-muted">Your personal pocket vocabulary</span>
+    </div>
+  </div>
+  <nav #desktopNav class="nav side-nav flex-column position-relative gap-2 mb-4">
+    <div #desktopGlider class="desktop-glider"></div>
+    @for (item of navItems; track item.path) {
+      <a #desktopLink
+         class="nav-link rounded-3 d-flex align-items-center gap-3 px-3 py-2"
+         [routerLink]="item.path"
+         routerLinkActive="active"
+         [ariaCurrentWhenActive]="'page'"
+         (isActiveChange)="$event && repositionDesktopGlider()">
+        <i class="bi {{ item.icon }} fs-5" aria-hidden="true"></i> {{ item.label }}
+      </a>
+    }
+  </nav>
+  <button class="btn btn-add btn-add-not-fab mb-auto w-100 d-flex align-items-center justify-content-center gap-2 py-2" (click)="onAddWord()">
+    <i class="bi bi-plus-lg fs-5" aria-hidden="true"></i> Add Word
+  </button>
+  <!-- TODO(backend): nDays / nInteractions will come from StreakService once the API exists -->
+  <div class="stats-row d-flex gap-2 w-100 mb-2">
+    <div class="stat-card streak-card flex-fill rounded-4 ps-3 pe-3 p-2">
+      <div class="d-flex justify-content-between align-items-center mb-1">
+        <p class="mb-0"><i class="bi bi-fire text-danger me-2"></i><b>{{ nDays }}-day streak</b></p>
+        <p class="text-muted mb-0">{{ nInteractions() }}/{{ maxReps }} reps</p>
+      </div>
+      <div class="progress w-100 mt-2" role="progressbar" aria-label="Streak progress" [attr.aria-valuenow]="progressPercent()" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar bg-danger" [style.width.%]="progressPercent()"></div>
+      </div>
+    </div>
+  </div>
+  <!-- TODO(backend): nWords <- VocabularyService, nCategories <- CategoriesService -->
+  <div class="stats-row d-flex gap-2 w-100">
+    <div class="stat-card flex-fill rounded-4 p-3">
+      <div class="d-flex flex-row align-items-center gap-2">
+        <div class="d-flex words-bubble p-1 justify-content-center">
+          <i class="bi bi-book fs-6 stat-icon stat-icon-words" aria-hidden="true"></i>
+        </div>
+        <p class="fs-3 fw-medium mb-0 lh-1">{{ nWords }}</p>
+      </div>
+      <p class="text-muted mt-1 mb-0">words saved</p>
+    </div>
+    <div class="stat-card flex-fill rounded-4 p-3">
+      <div class="d-flex flex-row align-items-center gap-2">
+        <div class="d-flex categories-bubble p-1 justify-content-center">
+          <i class="bi bi-grid fs-6 stat-icon stat-icon-categories" aria-hidden="true"></i>
+        </div>
+        <p class="fs-3 fw-medium mb-0 lh-1">{{ nCategories }}</p>
+      </div>
+      <p class="text-muted mt-1 mb-0">categories</p>
+    </div>
+  </div>
+</aside>
+
+
+<div #mobileNavContainer class="mobile-nav-container d-lg-none fixed-bottom d-flex justify-content-center align-items-center gap-2">
+  <nav class="tabbar position-relative d-flex align-items-center flex-grow-1 py-1 rounded-pill shadow-sm">
+    <div #mobileGlider class="mobile-glider rounded-pill"></div>
+    @for (item of navItems; track item.path) {
+      <a #mobileTab
+         class="tab-item d-flex align-items-center justify-content-center text-decoration-none py-1 rounded-pill"
+         [routerLink]="item.path"
+         routerLinkActive="active"
+         [ariaCurrentWhenActive]="'page'"
+         [attr.aria-label]="item.label"
+         (isActiveChange)="$event && repositionMobileGlider()">
+        <i class="bi {{ item.icon }} fs-5" aria-hidden="true"></i>
+      </a>
+    }
+  </nav>
+  <button class="btn btn-add btn-add-fab flex-shrink-0 d-flex align-items-center justify-content-center shadow-sm" (click)="onAddWord()" aria-label="Add word">
+    <i class="bi bi-plus-lg fs-4" aria-hidden="true"></i>
+  </button>
+</div>
