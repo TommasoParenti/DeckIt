@@ -55,7 +55,7 @@
   position: absolute;
   left: 0;
   right: 0;
-  background-color: #FFFFFF;
+  background-color: #f9f9f9;
   border-radius: 0.7rem;
   z-index: -1;
   transition: transform 0.4s cubic-bezier(0.34, 1.4, 0.64, 1), height 0.4s ease;
@@ -162,4 +162,33 @@
 
 i.bi {
   -webkit-text-stroke: 0.3px currentColor;
+}
+
+.sidebar-search {
+  background-color: #FFFFFF;
+  color: var(--ink-faint);
+  transition: box-shadow 0.15s ease;
+  border-radius: 0.7rem;
+
+  .search-input {
+    min-width: 0;
+    color: var(--ink);
+    font-size: 1rem;
+
+    &::placeholder {
+      color: var(--ink-faint);
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &::-webkit-search-cancel-button {
+      -webkit-appearance: none;
+    }
+  }
+
+  &:focus-within {
+    box-shadow: 0 0 0 2px rgba(91, 127, 166, 0.25);
+  }
 }

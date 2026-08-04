@@ -5,6 +5,18 @@
       <span class="brand-tagline text-muted">Your personal pocket vocabulary</span>
     </div>
   </div>
+
+  <div class="sidebar-search d-flex align-items-center gap-2 px-3 py-2 mb-4 shadow-sm">
+    <i class="bi bi-search fs-6" aria-hidden="true"></i>
+    <input
+      type="search"
+      class="search-input flex-grow-1 border-0 bg-transparent"
+      placeholder="Search words..."
+      aria-label="Search vocabulary"
+      [value]="searchTerm()"
+      (input)="onSearchInput($any($event.target).value)" />
+  </div>
+
   <nav #desktopNav class="nav side-nav flex-column position-relative gap-2 mb-4">
     <div #desktopGlider class="desktop-glider"></div>
     @for (item of navItems; track item.path) {

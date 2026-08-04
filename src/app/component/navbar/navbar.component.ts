@@ -33,6 +33,8 @@ export class NavbarComponent {
   readonly maxReps = 5;
 
   progressPercent = computed(() => Math.min(100, Math.round((this.nInteractions() * 100) / this.maxReps)));
+  readonly searchTerm = signal('');
+  readonly search = output<string>();
 
   private static readonly MOBILE_GLIDER_INSET = 4;
 
@@ -103,5 +105,12 @@ export class NavbarComponent {
     // streakService.registerInteraction() here too (adding a word should
     // count as a rep, same as reviewing a flashcard).
     this.addWord.emit();
+  }
+
+  onSearchInput(value: string): void {
+    this.searchTerm.set(value);
+    this.search.emit(value);
+    // TODO(backend): wire up to VocabularyService.search() once it exists;
+    // considerare un debounce prima di emettere/chiamare l'API.
   }
 }
