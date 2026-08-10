@@ -6,9 +6,10 @@ import { CategoriesComponent } from './page/categories/categories.component';
 import { FlashcardsComponent } from './page/flashcards/flashcards.component';
 import { StatisticsComponent } from './page/statistics/statistics.component';
 import { authGuard } from './guards/auth.guard';
+import { noAuthGuard } from './guards/no-auth.guard';
 
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent, canActivate: [noAuthGuard]},
   {
     path: '', component: MainLayoutComponent, canActivate: [authGuard],
     children: [
