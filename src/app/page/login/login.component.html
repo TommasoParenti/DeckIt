@@ -1,0 +1,27 @@
+<div class="gate d-flex align-items-center justify-content-center min-vh-100 position-relative overflow-hidden p-3">
+
+  <div class="gate-blob gate-blob-words position-absolute rounded-circle" aria-hidden="true"></div>
+  <div class="gate-blob gate-blob-categories position-absolute rounded-circle" aria-hidden="true"></div>
+
+  <form class="gate-card position-relative d-flex flex-column align-items-center gap-2 p-4 rounded-4 shadow" [class.gate-shake]="error()" (ngSubmit)="submit()">
+    <h1 class="mb-0 fw-bold mb-1">DeckIt</h1>
+    <span class="gate-chip badge rounded-pill mb-4" aria-hidden="true">Your personal pocket vocabulary</span>
+    <p class="gate-hint text-center small mb-2">Enter the password to continue</p>
+    <div class="w-100">
+      <div class="input-group">
+            <input id="gate-password" class="gate-input form-control" [class.is-invalid]="error()" [type]="showPassword() ? 'text' : 'password'" name="password" [ngModel]="password()" (ngModelChange)="onPasswordChange($event)" placeholder="••••••••" autocomplete="current-password" autofocus/>
+            <button class="gate-toggle-pw btn" type="button" (click)="togglePasswordVisibility()">
+                <i class="bi" [class.bi-eye]="!showPassword()" [class.bi-eye-slash]="showPassword()"></i>
+            </button>
+        </div>
+    </div>
+    <button class="gate-btn btn w-100 rounded-3 mt-1" type="submit" [disabled]="!canSubmit()">
+      @if (!loading()) {
+        <span>Enter</span>
+      } @else {
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      }
+    </button>
+  </form>
+
+</div>
