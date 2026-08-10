@@ -1,15 +1,23 @@
 import { Routes } from '@angular/router';
+import { LoginComponent } from './page/login/login.component';
+import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
 import { VocabularyComponent } from './page/vocabulary/vocabulary.component';
 import { CategoriesComponent } from './page/categories/categories.component';
 import { FlashcardsComponent } from './page/flashcards/flashcards.component';
 import { StatisticsComponent } from './page/statistics/statistics.component';
+import { authGuard } from './guards/auth.guard';
 
-// 2. Colleghiamo le rotte ai componenti finti
 export const routes: Routes = [
-  { path: '', redirectTo: 'vocabulary', pathMatch: 'full' },
-  { path: 'vocabulary', component: VocabularyComponent },
-  { path: 'categories', component: CategoriesComponent },
-  { path: 'flashcards', component: FlashcardsComponent },
-  { path: 'statistics', component: StatisticsComponent },
-  { path: '**', redirectTo: 'vocabulary' }
+  { path: 'login', component: LoginComponent },
+  {
+    path: '', component: MainLayoutComponent, canActivate: [authGuard],
+    children: [
+      { path: '', pathMatch: 'full', redirectTo: 'vocabulary' },
+      { path: 'vocabulary', component: VocabularyComponent },
+      { path: 'categories', component: CategoriesComponent },
+      { path: 'flashcards', component: FlashcardsComponent },
+      { path: 'statistics', component: StatisticsComponent },
+    ]
+  },
+  { path: '**', redirectTo: 'login' }
 ];
