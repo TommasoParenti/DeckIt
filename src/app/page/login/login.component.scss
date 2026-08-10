@@ -21,6 +21,9 @@ h1 {
   background: var(--surface);
   font-family: var(--font-brand);
   padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
 }
 
 .gate-blob {
