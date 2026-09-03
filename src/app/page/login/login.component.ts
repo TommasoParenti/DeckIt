@@ -14,12 +14,14 @@ export class LoginComponent {
   private auth = inject(AuthService);
   private router = inject(Router);
 
+  attempts = signal(0);
   password = signal('');
   loading = signal(false);
   error = signal(false);
   showPassword = signal(false);
 
-  canSubmit = computed(() => !this.loading() && this.password().trim().length > 0);
+  canSubmit = computed(() => !this.loading() && this.password().trim().length > 0 && !this.tooManyAttempts());
+  tooManyAttempts = computed(() => this.attempts() > 5);
 
   onPasswordChange(value: string) {
     this.password.set(value);
@@ -32,6 +34,7 @@ export class LoginComponent {
 
   async submit() {
     if (!this.canSubmit()) return;
+    if(this.tooManyAttempts()) return;
     this.loading.set(true);
     this.error.set(false);
     try {
@@ -40,6 +43,7 @@ export class LoginComponent {
     } catch {
       this.error.set(true);
     } finally {
+      this.attempts.set(this.attempts()+1);
       this.loading.set(false);
     }
   }

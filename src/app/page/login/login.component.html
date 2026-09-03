@@ -15,6 +15,9 @@
             </button>
         </div>
     </div>
+    @if (tooManyAttempts()) {
+      <p class="t text-danger">Too many attempts. Try again later.</p>
+    }
     <button class="gate-btn btn w-100 rounded-3 mt-1" type="submit" [disabled]="!canSubmit()">
       @if (!loading()) {
         <span>Enter</span>
