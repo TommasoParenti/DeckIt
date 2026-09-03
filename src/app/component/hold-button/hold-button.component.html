@@ -1,0 +1,17 @@
+<button
+  class="btn w-100 h-100 d-flex justify-content-center align-items-center"
+  type="button"
+  [class]="classes()"
+  [class.holding]="holding()"
+  [disabled]="disabled()"
+  [style.--hold-duration]="holdDuration() + 'ms'"
+  (pointerdown)="startHold()"
+  (pointerup)="cancelHold()"
+  (pointerleave)="cancelHold()"
+  (pointercancel)="cancelHold()"
+  (keydown.enter)="onKeyDown($event)"
+  (keydown.space)="onKeyDown($event)"
+  (keyup.enter)="onKeyUp($event)"
+  (keyup.space)="onKeyUp($event)">
+  <i class="fs-5" [class]="icon()"></i>
+</button>
