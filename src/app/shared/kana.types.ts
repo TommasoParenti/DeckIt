@@ -1,3 +1,10 @@
+export interface KanaCell {
+  char: string;
+  romaji: string;
+}
+
+export type KanaRow = (KanaCell | null)[];
+
 export interface KanjiEntry {
   char: string;
   readings_on: string[];
