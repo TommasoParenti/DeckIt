@@ -1,0 +1,50 @@
+.wip-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--accent-wip);
+  background-color: var(--accent-wip-washed);
+  border: 1px dashed color-mix(in srgb, var(--accent-wip) 50%, transparent);
+
+  i {
+    font-size: 0.9rem;
+    display: inline-block;
+    animation: wip-wiggle 2.2s ease-in-out infinite;
+  }
+}
+
+.wip-icon {
+  width: 3.2rem;
+  height: 3.2rem;
+  background-color: var(--accent-wip-washed);
+  color: var(--accent-wip);
+  animation: wip-bounce 2.4s ease-in-out infinite;
+}
+
+@keyframes wip-wiggle {
+  0%, 100% { 
+    transform: rotate(0deg); 
+  }
+  25% { 
+    transform: rotate(-12deg); 
+  }
+  75% { 
+    transform: rotate(12deg); 
+  }
+}
+
+@keyframes wip-bounce {
+  0%, 100% { 
+    transform: translateY(0); 
+  }
+  50% { 
+    transform: translateY(-6px); 
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wip-badge i,
+  .wip-icon {
+    animation: none;
+  }
+}
