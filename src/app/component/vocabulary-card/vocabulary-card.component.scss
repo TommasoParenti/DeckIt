@@ -1,0 +1,101 @@
+.card {
+  border-radius: 1.5rem;
+  min-width: 13rem;
+  height: 17.5rem;
+  border-color: rgba(230, 224, 211, 0.9);
+}
+
+.card-clickable {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  @media (hover:hover) and (pointer: fine) {
+    &:hover {
+      transform: translateY(-4px);
+    }
+  }
+
+  @media (hover: none), (pointer: coarse) {
+    &:active {
+      transform:scale(0.98);
+    }
+  }
+}
+
+.chip {
+  width: fit-content;
+  letter-spacing: 0.02em;
+}
+
+.chip-category {
+  padding: 0.15rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  background: color-mix(in srgb, var(--accent) 16%, white);
+  color: color-mix(in srgb, var(--accent) 75%, black);
+}
+
+.word {
+  color: var(--accent-words);
+}
+
+.jp-word {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 0.4rem;
+}
+
+.jp-word ruby {
+  display: inline-flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--ink-strong);
+  line-height: 1;
+}
+
+.jp-word rt {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--ink-faint);
+  text-transform: lowercase;
+}
+
+.jp-word--long ruby {
+  font-size: 1.4rem;
+}
+
+.description {
+  width: 100;
+  color: var(--ink-faint);
+  font-size: 0.875rem;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.btn-star {
+  transition: transform 0.15s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  i {
+    transition: color 0.2s ease;
+  }
+}
+
+.card > .d-flex.align-items-center {
+  margin-bottom: 1.25rem;
+}
+
+.content-block {
+  gap: 1rem;
+}
