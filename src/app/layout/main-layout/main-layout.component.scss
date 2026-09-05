@@ -1,0 +1,8 @@
+.page-content {
+  height: 95%;
+
+  @media (min-width: 992px) {
+    margin-left: var(--sidebar-width);
+    padding-bottom: 0;
+  }
+}
