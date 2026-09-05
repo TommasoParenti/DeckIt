@@ -1,0 +1,113 @@
+@if (open()) {
+  <div class="kana-keyboard position-fixed d-flex flex-column bg-white" [class.kana-keyboard-mobile]="isMobile()" [class.kana-keyboard-desktop]="!isMobile()" [class.start-0]="isMobile()" [class.end-0]="isMobile()" [class.bottom-0]="isMobile()" [class.start-50]="!isMobile()" [class.translate-middle-x]="!isMobile()" [style.top]="top()">
+    <div class="d-flex align-items-center justify-content-between px-3 py-3 border-bottom">
+        <div class="d-flex btn-group" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" [checked]="mode() === 'hiragana'" (mousedown)="$event.preventDefault()" (click)="setMode('hiragana')">
+            <label class="btn btn-outline-primary btn-choice" for="btnradio1">Hiragana</label>
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" [checked]="mode() === 'katakana'" (mousedown)="$event.preventDefault()" (click)="setMode('katakana')">
+            <label class="btn btn-outline-primary btn-choice" for="btnradio2">Katakana</label>
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" [checked]="mode() === 'kanji'" (mousedown)="$event.preventDefault()" (click)="setMode('kanji')">
+            <label class="btn btn-outline-primary btn-choice" for="btnradio3">Kanji</label>
+        </div>
+      <button type="button" class="btn-close" (click)="close()"></button>
+    </div>
+
+    <div class="flex-grow-1 overflow-auto">
+      @if (mode() === 'kanji') {
+        <div class="px-3 pt-2">
+          <input type="text" class="form-control" placeholder="Find by reading or meaning..." [value]="kanjiSearch()" (input)="onKanjiSearchChange($any($event.target).value)" />
+        </div>
+        @if (kanjiService.loading()) {
+          <div class="col-12 text-center py-5">
+            <div class="spinner-border" style="color: var(--words);" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        } @else if (kanjiLoadError()) {
+          <div class="col-12 text-center py-5">
+            <p class="text-muted mb-2">Couldn't load kanji data.</p>
+            <button type="button" class="btn btn-sm btn-outline-primary" (click)="loadKanji()">Retry</button>
+          </div>
+        } @else {
+          <div class="px-3 py-2 kanji">
+            @for (entry of filteredKanji(); track entry.char) {
+              @for (kanji of entry.meanings; track $index) {
+                <button type="button" class="kb-key kb-key-kanji btn btn-light d-flex flex-column justify-content-center align-items-center p-1" (mousedown)="$event.preventDefault()" (click)="insertChar(entry.char)">
+                  <span class="fs-5 lh-1">{{ entry.char }}</span>
+                  <span class="kb-key-caption text-muted text-truncate w-100 text-center">{{ kanji }}</span>
+                </button>
+              }
+            } @empty {
+              <p class="text-muted px-2">No kanji found.</p>
+            }
+          </div>
+        }
+      } @else {
+        <div class="px-3 py-2">
+          @for (row of activeRows(); track $index) {
+            <div class="d-flex gap-2 flex-wrap mb-2 kb-row">
+              @for (cell of row; track cell?.char ?? $index) {
+                @if (cell) {
+                  <button type="button" class="kb-key btn btn-light d-flex flex-column align-items-center justify-content-center p-3" (mousedown)="$event.preventDefault()" (click)="insertChar(cell.char)">
+                    <span class="lh-1 fs-5">{{ cell.char }}</span>
+                    <span class="kb-key-caption text-muted lh-3">{{ cell.romaji }}</span>
+                  </button>
+                } @else {
+                  <span class="kb-key kb-key-empty"></span>
+                }
+              }
+            </div>
+          }
+
+          @for (row of activeDakutenRows(); track $index) {
+            <div class="d-flex gap-2 flex-wrap mb-2 kb-row" [class.mt-5]="$index == 0">
+              @for (cell of row; track cell?.char ?? $index) {
+                @if (cell) {
+                  <button type="button" class="kb-key btn btn-light d-flex flex-column align-items-center justify-content-center p-3" (mousedown)="$event.preventDefault()" (click)="insertChar(cell.char)">
+                    <span class="lh-1 fs-5">{{ cell.char }}</span>
+                    <span class="kb-key-caption text-muted lh-3">{{ cell.romaji }}</span>
+                  </button>
+                } @else {
+                  <span class="kb-key kb-key-empty"></span>
+                }
+              }
+            </div>
+          }
+    
+          <div class="d-flex gap-2 flex-wrap mt-5 mb-2 kb-row">
+            @for (cell of specialKeys(); track cell?.char ?? $index) {
+              @if (cell) {
+                <button type="button" class="kb-key btn btn-light d-flex flex-column align-items-center justify-content-center p-3" (mousedown)="$event.preventDefault()" (click)="insertChar(cell.char)">
+                  <span class="lh-1 fs-5">{{ cell.char }}</span>
+                  <span class="kb-key-caption text-muted lh-3">{{ cell.romaji }}</span>
+                </button>
+              } @else {
+                <span class="kb-key kb-key-empty"></span>
+              }
+            }
+          </div>
+    
+          @for (row of activeYoonRows(); track $index) {
+            <div class="d-flex gap-2 flex-wrap mb-2 kb-row" [class.mt-5]="$index == 0">
+              @for (cell of row; track cell?.char ?? $index) {
+                @if (cell) {
+                  <button type="button" class="kb-key btn btn-light d-flex flex-column align-items-center justify-content-center p-3" (mousedown)="$event.preventDefault()" (click)="insertChar(cell.char)">
+                    <span class="lh-1 fs-5">{{ cell.char }}</span>
+                    <span class="kb-key-caption text-muted lh-3">{{ cell.romaji }}</span>
+                  </button>
+                } @else {
+                  <span class="kb-key invisible"></span>
+                }
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="kb-footer d-flex align-items-center gap-2 px-3 border-top">
+      <button type="button" class="kb-key kb-key-special btn btn-light mt-1 mb-1" (mousedown)="$event.preventDefault()" (click)="space()"><i class="ti ti-space fs-4"></i></button>
+      <button type="button" class="kb-key kb-key-special btn btn-light ms-auto  mt-1 mb-1" aria-label="Backspace" (mousedown)="$event.preventDefault()" (click)="backspace()"><i class="ti ti-backspace fs-4"></i></button>
+    </div>
+  </div>
+}
