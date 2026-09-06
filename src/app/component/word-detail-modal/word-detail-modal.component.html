@@ -1,0 +1,40 @@
+<app-responsive-modal [(open)]="open" [style.--accent]="'#' + categoryColor()">
+  <div modal-actions class="d-flex w-100 h-100">
+    <button class="btn-icon btn-star" (click)="toggleStar($event)">
+      <i class="ti fs-5" [class.ti-star]="!isFavorite()" [class.bi-star-fill]="isFavorite()" [class.text-warning]="isFavorite()" [class.text-muted]="!isFavorite()"></i>
+    </button>
+    <button type="button" class="btn-icon" (click)="edit.emit()">
+      <i class="ti ti-pencil fs-5"></i>
+    </button>
+    <app-hold-button class="btn-icon-hold" icon="ti ti-trash" color="danger" (holdComplete)="onDelete()" />
+  </div>
+  <div class="modal-body p-0">
+    @if (word(); as w) {
+      <div class="row g-0">
+        <div class="col-12 col-md-5 japanese-section d-flex align-items-center justify-content-center pt-5 pb-5">
+          <div class="d-flex flex-column">
+            <div class="jp-word text-center">
+              @for (char of selectedChars(); track $index) {
+                <ruby>{{ char }}<rt>{{ w.spelling[$index] }}</rt></ruby>
+              }
+            </div>
+            <span class="word mt-4 fw-bold m-auto">{{ w.translation }}</span>
+          </div>
+        </div>
+        <div class="col-12 col-md-7 p-4 info-section">
+          <div class="d-flex flex-row mb-2">
+            <span class="chip chip-category text-uppercase me-auto">{{ w.category }}</span>
+          </div>
+          <div class="mb-3 mt-3">
+            <p class="description mb-0">{{ w.description }}</p>
+          </div>
+          <div>
+            <small class="text-body-secondary d-block mb-1">
+              Added {{ w.added_at | date:'d MMMM yyyy HH:mm' }}
+            </small>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</app-responsive-modal>
