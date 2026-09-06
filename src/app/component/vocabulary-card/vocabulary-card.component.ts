@@ -15,7 +15,7 @@ export class VocabularyCardComponent {
   translation = input('');
   description = input('');
   spelling = input<string[]>([]);
-  categoryColor = computed(() => { this.categoriesService.categories().find(c => c.name === this.category())?.color ?? '6c757d' })
+  categoryColor = computed(() => { return this.categoriesService.categories().find(c => c.name === this.category())?.color ?? '6c757d' })
 
   isFavorite = model(false);
   cardClick = output<void>();
