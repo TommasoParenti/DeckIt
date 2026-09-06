@@ -13,3 +13,5 @@ export interface KanjiEntry {
   grade?: number;
   jlpt?: number;
 }
+
+export type ScriptMode = 'kanji' | 'katakana' | 'hiragana';

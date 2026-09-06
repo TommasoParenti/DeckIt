@@ -3,11 +3,9 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { debounceTime } from 'rxjs';
 import { MobileService } from '../../services/mobile.service';
 import { hiraganaRows, katakanaRows, hiraganaDakuten, katakanaDakuten, hiraganaSokuon, katakanaSokuon, chouonpu, hiraganaYoon, katakanaYoon } from '../../shared/kana.data';
-import { KanaCell, KanaRow, KanjiEntry } from '../../shared/kana.types';
+import { KanaCell, KanaRow, KanjiEntry, ScriptMode } from '../../shared/kana.types';
 import { KanjiService } from '../../services/kanji.service';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
-
-type ScriptMode = 'kanji' | 'katakana' | 'hiragana';
 
 const MAX_KANJI_RESULTS = 100;
 const SEARCH_DEBOUNCE_MS = 150;

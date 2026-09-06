@@ -9,6 +9,7 @@ import { WordsService } from '../../services/words.service';
 import { WordInsert } from '../../core/models';
 import { AuthService } from '../../services/auth-service/auth.service';
 import { splitIntoKanaUnits } from '../../shared/kana.util';
+import { ScriptMode } from '../../shared/kana.types';
 
 const SMALL_YOON = new Set(['ゃ', 'ゅ', 'ょ', 'ャ', 'ュ', 'ョ']);
 const SOKUON = new Set(['っ', 'ッ']);
@@ -62,7 +63,7 @@ export class NavbarComponent {
   isAddWordModalOpen = signal(false);
   isKeyboardOpen = signal(false);
 
-  newWordType: 'kanji' | 'katakana' | 'hiragana' = 'hiragana';
+  newWordType: ScriptMode = 'hiragana';
   newWordText = '';
   newWordTranslation = '';
   newWordDescription = '';
