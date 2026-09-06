@@ -8,21 +8,19 @@
 
   <div class="sidebar-search d-flex align-items-center gap-2 px-3 py-2 mb-4 shadow-sm">
     <i class="ti ti-search fs-5" aria-hidden="true"></i>
-    <input type="search" class="search-input flex-grow-1 border-0 bg-transparent" placeholder="Search words..."
-      aria-label="Search vocabulary" [value]="searchTerm()" (input)="onSearchInput($any($event.target).value)" />
+    <input type="search" class="search-input flex-grow-1 border-0 bg-transparent" placeholder="Search words..." aria-label="Search vocabulary" [value]="searchTerm()" (input)="onSearchInput($any($event.target).value)" />
   </div>
 
   <nav #desktopNav class="nav side-nav flex-column position-relative gap-2 mb-4">
     <div #desktopGlider class="desktop-glider"></div>
     @for (item of navItems; track item.path) {
-    <a #desktopLink class="nav-link rounded-3 d-flex align-items-center gap-3 px-3 py-2" [routerLink]="item.path"
-      routerLinkActive="active" [ariaCurrentWhenActive]="'page'" (isActiveChange)="$event && repositionDesktopGlider()">
-      <i class="ti {{ item.icon }} fs-5" aria-hidden="true"></i> {{ item.label }}
-    </a>
+      <a #desktopLink class="nav-link rounded-3 d-flex align-items-center gap-3 px-3 py-2" [routerLink]="item.path"
+        routerLinkActive="active" [ariaCurrentWhenActive]="'page'" (isActiveChange)="$event && repositionDesktopGlider()">
+        <i class="ti {{ item.icon }} fs-5" aria-hidden="true"></i> {{ item.label }}
+      </a>
     }
   </nav>
-  <button class="btn btn-add btn-add-not-fab mb-auto w-100 d-flex align-items-center justify-content-center gap-2 py-2"
-    (click)="openAddWordModal()">
+  <button class="btn btn-add btn-add-not-fab mb-auto w-100 d-flex align-items-center justify-content-center gap-2 py-2" (click)="openAddWordModal()">
     <i class="ti ti-plus fs-5" aria-hidden="true"></i> Add Word
   </button>
   <div class="stats-row d-flex gap-2 w-100 mb-2">
@@ -31,8 +29,7 @@
         <p class="mb-0"><i class="bi bi-fire text-danger me-2"></i><b>{{ nDays }}-day streak</b></p>
         <p class="text-muted mb-0">{{ nInteractions() }}/{{ maxReps }} reps</p>
       </div>
-      <div class="progress w-100 mt-2" role="progressbar" aria-label="Streak progress"
-        [attr.aria-valuenow]="progressPercent()" aria-valuemin="0" aria-valuemax="100">
+      <div class="progress w-100 mt-2" role="progressbar" aria-label="Streak progress" [attr.aria-valuenow]="progressPercent()" aria-valuemin="0" aria-valuemax="100">
         <div class="progress-bar bg-danger" [style.width.%]="progressPercent()"></div>
       </div>
     </div>
@@ -64,16 +61,15 @@
   <nav class="tabbar position-relative d-flex align-items-center flex-grow-1 py-1 rounded-pill shadow-sm">
     <div #mobileGlider class="mobile-glider rounded-pill"></div>
     @for (item of navItems; track item.path) {
-    <a #mobileTab
-      class="tab-item d-flex align-items-center justify-content-center text-decoration-none py-1 rounded-pill"
-      [routerLink]="item.path" routerLinkActive="active" [ariaCurrentWhenActive]="'page'" [attr.aria-label]="item.label"
-      (isActiveChange)="$event && repositionMobileGlider()">
-      <i class="ti {{ item.icon }} fs-2" aria-hidden="true"></i>
-    </a>
+      <a #mobileTab
+        class="tab-item d-flex align-items-center justify-content-center text-decoration-none py-1 rounded-pill"
+        [routerLink]="item.path" routerLinkActive="active" [ariaCurrentWhenActive]="'page'" [attr.aria-label]="item.label"
+        (isActiveChange)="$event && repositionMobileGlider()">
+        <i class="ti {{ item.icon }} fs-2" aria-hidden="true"></i>
+      </a>
     }
   </nav>
-  <button class="btn btn-add btn-add-fab flex-shrink-0 d-flex align-items-center justify-content-center shadow-sm"
-    (click)="openAddWordModal()" aria-label="Add word">
+  <button class="btn btn-add btn-add-fab flex-shrink-0 d-flex align-items-center justify-content-center shadow-sm" (click)="openAddWordModal()" aria-label="Add word">
     <i class="ti ti-plus fs-4" aria-hidden="true"></i>
   </button>
 </div>
@@ -88,8 +84,7 @@
     <div class="mb-3">
       <label for="wordText" class="form-label">Word</label>
       <div class="input-with-keyboard">
-        <input #wordInput type="text" id="wordText" class="form-control" placeholder="Es. こんにちは" name="wordText"
-          inputmode="none" readonly [ngModel]="newWordText" (focus)="isKeyboardOpen.set(true)" />
+        <input #wordInput type="text" id="wordText" class="form-control" placeholder="Es. こんにちは" name="wordText" inputmode="none" readonly [ngModel]="newWordText" (focus)="isKeyboardOpen.set(true)" />
         <button type="button" #kbToggle class="btn-keyboard-toggle" (click)="isKeyboardOpen.set(!isKeyboardOpen())">
           <i class="ti ti-keyboard" aria-hidden="true"></i>
         </button>
@@ -101,8 +96,7 @@
       <label class="form-label">Rōmaji</label>
       <div class="d-flex gap-2 flex-row flex-nowrap spelling-row p-1">
         @for (char of spellingChars; track $index) {
-        <input type="text" class="form-control text-center spelling-box" [name]="'spellingChar' + $index"
-          [(ngModel)]="spellingChars[$index]" />
+          <input type="text" class="form-control text-center spelling-box" [name]="'spellingChar' + $index" [(ngModel)]="spellingChars[$index]" />
         }
       </div>
     </div>
@@ -110,7 +104,7 @@
 
     <div class="mb-3">
       <label for="wordTranslation" class="form-label">Translation</label>
-      <input type="text" id="wordTranslation" class="form-control" placeholder="Es. Hello" name="wordTranslation" (ngModel)]="newWordTranslation" />
+      <input type="text" id="wordTranslation" class="form-control" placeholder="Es. Hello" name="wordTranslation" [(ngModel)]="newWordTranslation" />
     </div>
 
     <div class="mb-3">
@@ -120,20 +114,17 @@
           {{ newWordDescription.length }}/150
         </span>
       </div>
-      <textarea id="wordDescription" maxlength="150" class="form-control description"
-        placeholder="Es. Common Japanese greeting meaning 'hello' or 'good afternoon.' It's typically used during the daytime, between mid-morning and early evening, and is one of the most widely recognized Japanese expressions, often used as a general-purpose greeting even outside Japan."
-        name="wordDescription" [(ngModel)]="newWordDescription"></textarea>
+      <textarea id="wordDescription" maxlength="150" class="form-control description" placeholder="Es. Common Japanese greeting meaning 'hello' or 'good afternoon.' It's typically used during the daytime, between mid-morning and early evening, and is one of the most widely recognized Japanese expressions, often used as a general-purpose greeting even outside Japan." name="wordDescription" [(ngModel)]="newWordDescription"></textarea>
     </div>
 
     <div class="mb-2">
       <label class="form-label">Category</label>
       <div class="d-flex flex-wrap gap-2 category-list">
         @for (category of categoriesService.categories(); track category.name) {
-        <button type="button" class="chip category-chip" [class.active]="newWordCategory === category.name"
-          [style.background]="'#'+category.color" (click)="newWordCategory = category.name">
-          <i class="ti" [class]="category.icon"></i>
-          <span>{{ category.name }}</span>
-        </button>
+          <button type="button" class="chip category-chip" [class.active]="newWordCategory === category.name" [style.background]="'#'+category.color" (click)="newWordCategory = category.name">
+            <i class="ti" [class]="category.icon"></i>
+            <span>{{ category.name }}</span>
+          </button>
         }
       </div>
     </div>
@@ -141,8 +132,7 @@
   </div>
 
   <div modal-footer class="d-flex gap-4 w-100 align-items-center justify-content-center pt-4 pb-4">
-    <button type="button" class="btn btn-create rounded-4 pe-4 ps-4" (click)="onAddWord()" [disabled]="!isFormValid()"
-      [class.w-100]="mobileService.isMobile()">Add</button>
+    <button type="button" class="btn btn-create rounded-4 pe-4 ps-4" (click)="onAddWord()" [disabled]="!isFormValid()" [class.w-100]="mobileService.isMobile()">Add</button>
   </div>
 </app-responsive-modal>
 
