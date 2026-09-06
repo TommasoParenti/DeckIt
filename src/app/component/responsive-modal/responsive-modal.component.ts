@@ -58,10 +58,7 @@ export class ResponsiveModalComponent {
   }
 
   onBackdropClick(event: MouseEvent): void {
-    if (
-      event.target === event.currentTarget &&
-      this.backdropMouseDownTarget === event.currentTarget
-    ) {
+    if (event.target === event.currentTarget && this.backdropMouseDownTarget === event.currentTarget) {
       this.close();
     }
   }
