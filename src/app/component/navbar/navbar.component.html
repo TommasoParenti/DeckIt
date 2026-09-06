@@ -1,90 +1,149 @@
 <aside class="sidebar d-none d-lg-flex flex-column position-fixed top-0 start-0 vh-100 p-3 border-end">
   <div class="sidebar-brand d-flex align-items-center gap-2 mb-4">
     <div class="brand-text d-flex flex-column">
-      <span class="brand-name fw-bold fs-3 text-dark">DeckIt</span>
+      <span class="brand-name fw-bold fs-1 text-dark">DeckIt</span>
       <span class="brand-tagline text-muted">Your personal pocket vocabulary</span>
     </div>
   </div>
 
   <div class="sidebar-search d-flex align-items-center gap-2 px-3 py-2 mb-4 shadow-sm">
-    <i class="bi bi-search fs-6" aria-hidden="true"></i>
-    <input
-      type="search"
-      class="search-input flex-grow-1 border-0 bg-transparent"
-      placeholder="Search words..."
-      aria-label="Search vocabulary"
-      [value]="searchTerm()"
-      (input)="onSearchInput($any($event.target).value)" />
+    <i class="ti ti-search fs-5" aria-hidden="true"></i>
+    <input type="search" class="search-input flex-grow-1 border-0 bg-transparent" placeholder="Search words..."
+      aria-label="Search vocabulary" [value]="searchTerm()" (input)="onSearchInput($any($event.target).value)" />
   </div>
 
   <nav #desktopNav class="nav side-nav flex-column position-relative gap-2 mb-4">
     <div #desktopGlider class="desktop-glider"></div>
     @for (item of navItems; track item.path) {
-      <a #desktopLink
-         class="nav-link rounded-3 d-flex align-items-center gap-3 px-3 py-2"
-         [routerLink]="item.path"
-         routerLinkActive="active"
-         [ariaCurrentWhenActive]="'page'"
-         (isActiveChange)="$event && repositionDesktopGlider()">
-        <i class="bi {{ item.icon }} fs-5" aria-hidden="true"></i> {{ item.label }}
-      </a>
+    <a #desktopLink class="nav-link rounded-3 d-flex align-items-center gap-3 px-3 py-2" [routerLink]="item.path"
+      routerLinkActive="active" [ariaCurrentWhenActive]="'page'" (isActiveChange)="$event && repositionDesktopGlider()">
+      <i class="ti {{ item.icon }} fs-5" aria-hidden="true"></i> {{ item.label }}
+    </a>
     }
   </nav>
-  <button class="btn btn-add btn-add-not-fab mb-auto w-100 d-flex align-items-center justify-content-center gap-2 py-2" (click)="onAddWord()">
-    <i class="bi bi-plus-lg fs-5" aria-hidden="true"></i> Add Word
+  <button class="btn btn-add btn-add-not-fab mb-auto w-100 d-flex align-items-center justify-content-center gap-2 py-2"
+    (click)="openAddWordModal()">
+    <i class="ti ti-plus fs-5" aria-hidden="true"></i> Add Word
   </button>
-  <!-- TODO(backend): nDays / nInteractions will come from StreakService once the API exists -->
   <div class="stats-row d-flex gap-2 w-100 mb-2">
     <div class="stat-card streak-card flex-fill rounded-4 ps-3 pe-3 p-2">
       <div class="d-flex justify-content-between align-items-center mb-1">
         <p class="mb-0"><i class="bi bi-fire text-danger me-2"></i><b>{{ nDays }}-day streak</b></p>
         <p class="text-muted mb-0">{{ nInteractions() }}/{{ maxReps }} reps</p>
       </div>
-      <div class="progress w-100 mt-2" role="progressbar" aria-label="Streak progress" [attr.aria-valuenow]="progressPercent()" aria-valuemin="0" aria-valuemax="100">
+      <div class="progress w-100 mt-2" role="progressbar" aria-label="Streak progress"
+        [attr.aria-valuenow]="progressPercent()" aria-valuemin="0" aria-valuemax="100">
         <div class="progress-bar bg-danger" [style.width.%]="progressPercent()"></div>
       </div>
     </div>
   </div>
-  <!-- TODO(backend): nWords <- VocabularyService, nCategories <- CategoriesService -->
   <div class="stats-row d-flex gap-2 w-100">
     <div class="stat-card flex-fill rounded-4 p-3">
       <div class="d-flex flex-row align-items-center gap-2">
-        <div class="d-flex words-bubble p-1 justify-content-center">
-          <i class="bi bi-book fs-6 stat-icon stat-icon-words" aria-hidden="true"></i>
+        <div class="d-flex words-bubble p-1 justify-content-center align-items-center">
+          <i class="ti ti-book fs-5 stat-icon stat-icon-words" aria-hidden="true"></i>
         </div>
-        <p class="fs-3 fw-medium mb-0 lh-1">{{ nWords }}</p>
+        <p class="fs-3 fw-medium mb-0 lh-1">{{ wordsService.total() }}</p>
       </div>
       <p class="text-muted mt-1 mb-0">words saved</p>
     </div>
     <div class="stat-card flex-fill rounded-4 p-3">
       <div class="d-flex flex-row align-items-center gap-2">
-        <div class="d-flex categories-bubble p-1 justify-content-center">
-          <i class="bi bi-grid fs-6 stat-icon stat-icon-categories" aria-hidden="true"></i>
+        <div class="d-flex categories-bubble p-1 justify-content-center align-items-center">
+          <i class="ti ti-layout-grid fs-5 stat-icon stat-icon-categories" aria-hidden="true"></i>
         </div>
-        <p class="fs-3 fw-medium mb-0 lh-1">{{ nCategories }}</p>
+        <p class="fs-3 fw-medium mb-0 lh-1">{{ categoriesService.categories().length }}</p>
       </div>
       <p class="text-muted mt-1 mb-0">categories</p>
     </div>
   </div>
 </aside>
 
-
-<div #mobileNavContainer class="mobile-nav-container d-lg-none fixed-bottom d-flex justify-content-center align-items-center gap-2">
+<div #mobileNavContainer
+  class="mobile-nav-container d-lg-none fixed-bottom d-flex justify-content-center align-items-center gap-2">
   <nav class="tabbar position-relative d-flex align-items-center flex-grow-1 py-1 rounded-pill shadow-sm">
     <div #mobileGlider class="mobile-glider rounded-pill"></div>
     @for (item of navItems; track item.path) {
-      <a #mobileTab
-         class="tab-item d-flex align-items-center justify-content-center text-decoration-none py-1 rounded-pill"
-         [routerLink]="item.path"
-         routerLinkActive="active"
-         [ariaCurrentWhenActive]="'page'"
-         [attr.aria-label]="item.label"
-         (isActiveChange)="$event && repositionMobileGlider()">
-        <i class="bi {{ item.icon }} fs-5" aria-hidden="true"></i>
-      </a>
+    <a #mobileTab
+      class="tab-item d-flex align-items-center justify-content-center text-decoration-none py-1 rounded-pill"
+      [routerLink]="item.path" routerLinkActive="active" [ariaCurrentWhenActive]="'page'" [attr.aria-label]="item.label"
+      (isActiveChange)="$event && repositionMobileGlider()">
+      <i class="ti {{ item.icon }} fs-2" aria-hidden="true"></i>
+    </a>
     }
   </nav>
-  <button class="btn btn-add btn-add-fab flex-shrink-0 d-flex align-items-center justify-content-center shadow-sm" (click)="onAddWord()" aria-label="Add word">
-    <i class="bi bi-plus-lg fs-4" aria-hidden="true"></i>
+  <button class="btn btn-add btn-add-fab flex-shrink-0 d-flex align-items-center justify-content-center shadow-sm"
+    (click)="openAddWordModal()" aria-label="Add word">
+    <i class="ti ti-plus fs-4" aria-hidden="true"></i>
   </button>
 </div>
+
+<app-responsive-modal [(open)]="isAddWordModalOpen" [minTranslateY]="0" [handleBc]="false" [showFooter]="true"
+  [showActionBar]="false">
+  <div class="modal-header pt-3 ps-3 pe-3 pb-0">
+    <h4 class="modal-title" id="modal-basic-title">Add a new Word</h4>
+  </div>
+
+  <div class="modal-body p-3">
+    <div class="mb-3">
+      <label for="wordText" class="form-label">Word</label>
+      <div class="input-with-keyboard">
+        <input #wordInput type="text" id="wordText" class="form-control" placeholder="Es. こんにちは" name="wordText"
+          inputmode="none" readonly [ngModel]="newWordText" (focus)="isKeyboardOpen.set(true)" />
+        <button type="button" #kbToggle class="btn-keyboard-toggle" (click)="isKeyboardOpen.set(!isKeyboardOpen())">
+          <i class="ti ti-keyboard" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+
+    @if (spellingChars.length > 0) {
+    <div class="mb-3">
+      <label class="form-label">Rōmaji</label>
+      <div class="d-flex gap-2 flex-row flex-nowrap spelling-row p-1">
+        @for (char of spellingChars; track $index) {
+        <input type="text" class="form-control text-center spelling-box" [name]="'spellingChar' + $index"
+          [(ngModel)]="spellingChars[$index]" />
+        }
+      </div>
+    </div>
+    }
+
+    <div class="mb-3">
+      <label for="wordTranslation" class="form-label">Translation</label>
+      <input type="text" id="wordTranslation" class="form-control" placeholder="Es. Hello" name="wordTranslation" (ngModel)]="newWordTranslation" />
+    </div>
+
+    <div class="mb-3">
+      <div class="d-flex justify-content-between align-items-center mb-1">
+        <label for="wordDescription" class="form-label mb-0">Description</label>
+        <span class="text-muted small" [class.text-danger]="newWordDescription.length >= 150">
+          {{ newWordDescription.length }}/150
+        </span>
+      </div>
+      <textarea id="wordDescription" maxlength="150" class="form-control description"
+        placeholder="Es. Common Japanese greeting meaning 'hello' or 'good afternoon.' It's typically used during the daytime, between mid-morning and early evening, and is one of the most widely recognized Japanese expressions, often used as a general-purpose greeting even outside Japan."
+        name="wordDescription" [(ngModel)]="newWordDescription"></textarea>
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Category</label>
+      <div class="d-flex flex-wrap gap-2 category-list">
+        @for (category of categoriesService.categories(); track category.name) {
+        <button type="button" class="chip category-chip" [class.active]="newWordCategory === category.name"
+          [style.background]="'#'+category.color" (click)="newWordCategory = category.name">
+          <i class="ti" [class]="category.icon"></i>
+          <span>{{ category.name }}</span>
+        </button>
+        }
+      </div>
+    </div>
+
+  </div>
+
+  <div modal-footer class="d-flex gap-4 w-100 align-items-center justify-content-center pt-4 pb-4">
+    <button type="button" class="btn btn-create rounded-4 pe-4 ps-4" (click)="onAddWord()" [disabled]="!isFormValid()"
+      [class.w-100]="mobileService.isMobile()">Add</button>
+  </div>
+</app-responsive-modal>
+
+<app-kana-keyboard [(open)]="isKeyboardOpen" [value]="newWordText" (valueChange)="onWordTextChange($event)" [(mode)]="newWordType" [targetEl]="wordInput" [toggleEl]="kbToggle" />

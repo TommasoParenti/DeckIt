@@ -1,5 +1,17 @@
 import { afterNextRender, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, inject, viewChild, viewChildren, output, computed, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ResponsiveModalComponent } from '../responsive-modal/responsive-modal.component';
+import { MobileService } from '../../services/mobile.service';
+import { FormsModule } from '@angular/forms';
+import { CategoriesService } from '../../services/categories.service';
+import { KanaKeyboardComponent } from '../kana-keyboard/kana-keyboard.component';
+import { WordsService } from '../../services/words.service';
+import { WordInsert } from '../../core/models';
+import { AuthService } from '../../services/auth-service/auth.service';
+
+const SMALL_YOON = new Set(['ゃ', 'ゅ', 'ょ', 'ャ', 'ュ', 'ョ']);
+const SOKUON = new Set(['っ', 'ッ']);
+const CHOONPU = 'ー';
 
 interface NavItem {
   path: string;
@@ -9,25 +21,26 @@ interface NavItem {
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, ResponsiveModalComponent, FormsModule, KanaKeyboardComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavbarComponent {
+  protected mobileService = inject(MobileService);
+  private destroyRef = inject(DestroyRef);
+  protected categoriesService = inject(CategoriesService);
+  protected wordsService = inject(WordsService);
+  private auth = inject(AuthService);
 
   readonly navItems: NavItem[] = [
-    { path: '/vocabulary', icon: 'bi-book', label: 'Vocabulary' },
-    { path: '/categories', icon: 'bi-grid', label: 'Categories' },
-    { path: '/flashcards', icon: 'bi-collection', label: 'Flashcards' },
-    { path: '/statistics', icon: 'bi-graph-up', label: 'Statistics' },
+    { path: '/vocabulary', icon: 'ti-book', label: 'Vocabulary' },
+    { path: '/categories', icon: 'ti-layout-grid', label: 'Categories' },
+    { path: '/flashcards', icon: 'ti-cards', label: 'Flashcards' },
+    { path: '/statistics', icon: 'ti-chart-bar', label: 'Statistics' },
   ];
 
-  readonly addWord = output<void>();
-
   // Placeholder stats. Once the backend exists, these should stop being plain fields and instead come from injected services
-  nWords = 0;
-  nCategories = 0;
   nDays = 0;
   nInteractions = signal(3);
   readonly maxReps = 5;
@@ -45,7 +58,15 @@ export class NavbarComponent {
   private readonly desktopNav = viewChild<ElementRef<HTMLElement>>('desktopNav');
   private readonly mobileNavContainer = viewChild<ElementRef<HTMLElement>>('mobileNavContainer');
 
-  private readonly destroyRef = inject(DestroyRef);
+  isAddWordModalOpen = signal(false);
+  isKeyboardOpen = signal(false);
+
+  newWordType: 'kanji' | 'katakana' | 'hiragana' = 'hiragana';
+  newWordText = '';
+  newWordTranslation = '';
+  newWordDescription = '';
+  newWordCategory: string = "";
+  spellingChars: string[] = [];
 
   constructor() {
     afterNextRender(() => {
@@ -56,7 +77,7 @@ export class NavbarComponent {
   }
 
   private observeResize(): void {
-    if (!('ResizeObserver' in window)) return;
+    if (!("ResizeObserver" in window)) return;
 
     const targets = [this.desktopNav()?.nativeElement, this.mobileNavContainer()?.nativeElement]
       .filter((el): el is HTMLElement => !!el);
@@ -97,20 +118,89 @@ export class NavbarComponent {
   }
 
   private findActive(list: readonly ElementRef<HTMLElement>[]): HTMLElement | undefined {
-    return list.find(el => el.nativeElement.classList.contains('active'))?.nativeElement;
+    return list.find(el => el.nativeElement.classList.contains("active"))?.nativeElement;
+  }
+
+  openAddWordModal(): void {
+    this.resetForm();
+    this.isAddWordModalOpen.set(true);
+  }
+
+  onWordTextChange(value: string): void {
+    this.newWordText = value;
+    const units = splitIntoKanaUnits(value);
+    this.spellingChars = units.map((_, i) => this.spellingChars[i] ?? '');
+  }
+
+  isFormValid(): boolean {
+    return (
+      this.newWordText.trim().length > 0 &&
+      this.newWordTranslation.trim().length > 0 &&
+      this.newWordCategory.trim().length > 0 &&
+      this.spellingChars.every(c => c.trim().length > 0)
+    );
   }
 
   onAddWord(): void {
-    // TODO(backend): once StreakService exists, call
-    // streakService.registerInteraction() here too (adding a word should
-    // count as a rep, same as reviewing a flashcard).
-    this.addWord.emit();
+    const user = this.auth.user();
+    if (!user) return;
+    if (!this.isFormValid()) return;
+
+    const newWord: WordInsert = {
+      kanji: this.newWordType == "kanji" ? this.newWordText : null,
+      hiragana: this.newWordType == "hiragana" ? this.newWordText : null,
+      katakana: this.newWordType == "katakana" ? this.newWordText : null,
+      translation: this.newWordTranslation.trim(),
+      description: this.newWordDescription.trim(),
+      spelling: this.spellingChars,
+      category: this.newWordCategory,
+      user_id: user.id
+    };
+    this.wordsService.create(newWord).subscribe({
+      next: () => {
+        this.resetForm();
+        this.isAddWordModalOpen.set(false);
+      },
+      error: (err) => console.error("Error", err)
+    });
+  }
+
+  private resetForm(): void {
+    this.newWordType = "hiragana";
+    this.newWordText = "";
+    this.newWordTranslation = "";
+    this.newWordDescription = "";
+    this.newWordCategory = "";
+    this.spellingChars = [];
   }
 
   onSearchInput(value: string): void {
     this.searchTerm.set(value);
     this.search.emit(value);
     // TODO(backend): wire up to VocabularyService.search() once it exists;
-    // considerare un debounce prima di emettere/chiamare l'API.
   }
+}
+
+function splitIntoKanaUnits(value: string): string[] {
+  const chars = Array.from(value ?? '');
+  const units: string[] = [];
+  let i = 0;
+  while (i < chars.length) {
+    let unit = chars[i];
+    i++;
+    if (SOKUON.has(unit) && i < chars.length) {
+      unit += chars[i];
+      i++;
+    }
+    while (i < chars.length && SMALL_YOON.has(chars[i])) {
+      unit += chars[i];
+      i++;
+    }
+    while (i < chars.length && chars[i] === CHOONPU) {
+      unit += chars[i];
+      i++;
+    }
+    units.push(unit);
+  }
+  return units;
 }
