@@ -5,6 +5,7 @@ import { MobileService } from '../../services/mobile.service';
 import { hiraganaRows, katakanaRows, hiraganaDakuten, katakanaDakuten, hiraganaSokuon, katakanaSokuon, chouonpu, hiraganaYoon, katakanaYoon } from '../../shared/kana.data';
 import { KanaCell, KanaRow, KanjiEntry } from '../../shared/kana.types';
 import { KanjiService } from '../../services/kanji.service';
+import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 
 type ScriptMode = 'kanji' | 'katakana' | 'hiragana';
 
@@ -13,7 +14,7 @@ const SEARCH_DEBOUNCE_MS = 150;
 
 @Component({
   selector: 'app-kana-keyboard',
-  imports: [],
+  imports: [LoadingSpinnerComponent],
   templateUrl: './kana-keyboard.component.html',
   styleUrl: './kana-keyboard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

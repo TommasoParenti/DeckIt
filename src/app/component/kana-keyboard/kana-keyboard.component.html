@@ -18,11 +18,7 @@
           <input type="text" class="form-control" placeholder="Find by reading or meaning..." [value]="kanjiSearch()" (input)="onKanjiSearchChange($any($event.target).value)" />
         </div>
         @if (kanjiService.loading()) {
-          <div class="col-12 text-center py-5">
-            <div class="spinner-border" style="color: var(--words);" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-          </div>
+          <app-loading-spinner />
         } @else if (kanjiLoadError()) {
           <div class="col-12 text-center py-5">
             <p class="text-muted mb-2">Couldn't load kanji data.</p>
