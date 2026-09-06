@@ -81,13 +81,32 @@
 }
 
 .btn-check:checked + .btn {
-    background-color: var(--some-words) !important;
-    border-color: var(--accent-words);
+  background-color: var(--some-words) !important;
+  border-color: var(--accent-words);
 }
 
 .kb-footer {
   flex: 0 0 auto;
   padding-block: 0.4rem;
+}
+
+.btn-group {
+  border-radius: 1rem; 
+  overflow: hidden;
+
+  .btn-choice {
+    &:first-of-type {
+      border-top-left-radius: inherit;
+      border-bottom-left-radius: inherit;
+      padding-left: 1rem;
+    }
+
+    &:last-of-type {
+      border-top-right-radius: inherit;
+      border-bottom-right-radius: inherit;
+      padding-right: 1rem;
+    }
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
