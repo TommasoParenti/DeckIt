@@ -1,0 +1,79 @@
+<div class="category-header">
+  <button type="button" class="btn-back" (click)="goBack()">
+    <i class="ti ti-arrow-left"></i>
+  </button>
+  <h1 class="category-title">{{ category() }}</h1>
+  <div class="category-header-actions ms-auto d-flex align-items-center gap-1">
+    <button type="button" class="btn-icon-header" (click)="editCategory()">
+      <i class="ti ti-pencil"></i>
+    </button>
+    <app-hold-button class="btn-icon-header-hold border border-danger rounded-5" icon="ti ti-trash" color="danger" (holdComplete)="deleteCategory()" />
+  </div>
+</div>
+
+<div class="container pb-10 my-4" [class.align-items-center]="!words().length">
+  <div class="row g-3">
+    @if (wordsService.loadingByCategory()) {
+      <app-loading-spinner />
+    } @else {
+      @for (item of words(); track item.id; let i = $index) {
+        <app-vocabulary-card [category]="item.category" [word]="item.kanji ?? item.katakana ?? item.hiragana ?? ''" [translation]="item.translation" [spelling]="item.spelling" [description]="item.description ?? ''" (cardClick)="openVocabulary(i)" class="col-12 col-sm-6 col-md-4 col-lg-3" />
+      } @empty {
+        <div class="col-12 text-center py-5">
+          <div class="mb-3">
+            <i class="ti ti-books fs-1 text-muted opacity-50"></i>
+          </div>
+          <h5 class="fw-semibold mb-1">Empty</h5>
+          <p class="text-muted small mb-4">You haven't saved any words yet. Start now!</p>
+          <button class="btn btn-add-word btn-sm rounded-pill px-4">
+            <i class="ti ti-plus me-1"></i> Add Word
+          </button>
+        </div>
+      }
+    }
+  </div>
+  @if(hasMore()) {
+    <app-load-more-button [loading]="loadingMore()" (load)="loadMore()" />
+  }
+</div>
+
+<app-responsive-modal [open]="isEditCategoryModalOpen()" (openChange)="isEditCategoryModalOpen.set($event)" [minTranslateY]="0" [handleBc]="false" [showFooter]="true" [showActionBar]="false">
+  <div class="modal-header pt-3 ps-3 pe-3 pb-0">
+    <h4 class="modal-title">Edit Category</h4>
+  </div>
+  <div class="modal-body p-3">
+    <div class="mb-3">
+      <label for="editCategoryName" class="form-label">Name</label>
+      <input type="text" id="editCategoryName" class="form-control" name="editCategoryName" [(ngModel)]="editCategoryName" />
+    </div>
+    <div class="mb-3">
+      <div class="d-flex justify-content-between align-items-center mb-1">
+        <label for="editCategoryDescription" class="form-label mb-0">Description</label>
+        <span class="text-muted small" [class.text-danger]="editCategoryDescription.length >= 90">
+          {{ editCategoryDescription.length }}/90
+        </span>
+      </div>
+      <textarea id="editCategoryDescription" class="form-control" rows="2" maxlength="90" name="editCategoryDescription" [(ngModel)]="editCategoryDescription"></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="editCategoryIcon" class="form-label">Icon</label>
+      <input type="text" id="editCategoryIcon" class="form-control" name="editCategoryIcon" [(ngModel)]="editCategoryIcon" placeholder="es. ti-book" />
+      <div class="form-text">All icons on <a href="https://tabler.io/icons" target="_blank" rel="noopener">tabler.io/icons</a>.</div>
+    </div>
+    <div class="mb-3">
+      <label for="editCategoryColor" class="form-label">Colore</label>
+      <input type="color" id="editCategoryColor" class="form-control form-control-color" [ngModel]="'#' + editCategoryColor" (ngModelChange)="editCategoryColor = $event.substring(1)" name="editCategoryColor" [class.is-invalid]="!isValidCategoryColor()" />
+      @if (!isValidCategoryColor()) {
+        <div class="form-text text-danger">Enter a valid 6-digit hex color</div>
+      }
+    </div>
+  </div>
+  <div modal-footer class="d-flex gap-4 w-100 align-items-center justify-content-center pt-4 pb-4">
+    <button type="button" class="btn btn-create rounded-4 pe-4 ps-4" (click)="onSaveEditCategory()" [disabled]="!isEditCategoryFormValid()" [class.w-100]="mobileService.isMobile()">Save</button>
+  </div>
+</app-responsive-modal>
+
+@if (clicked() != -1) {
+  <app-word-detail-modal [(open)]="isModalOpen" [word]="selectedWordFull()" (edit)="editWord()" (deleted)="clicked.set(-1)" />
+  <app-word-edit-modal [open]="isEditWordModalOpen()" (openChange)="onEditModalOpenChange($event)" [word]="selectedWordFull()" (saved)="isEditWordModalOpen.set(false)" />
+}

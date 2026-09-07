@@ -1,0 +1,101 @@
+.category-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+}
+
+.btn-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.05);
+  color: #1a1a1a;
+  cursor: pointer;
+  transition: background 150ms ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  &:active {
+    background: rgba(0, 0, 0, 0.15);
+  }
+}
+
+.category-title {
+  margin: 0;
+  flex: 1;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.pb-10 {
+  padding-bottom: 6rem;
+}
+
+.btn-add-word {
+  background-color: var(--words);
+  color: white;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+
+  &:hover {
+    background-color: color-mix(in srgb, var(--words) 90%, transparent);
+  }
+
+  &:active {
+    color: white;
+    border-color: color-mix(in srgb, var(--words) 90%, transparent);
+    background-color: color-mix(in srgb, var(--words) 90%, transparent);
+    transform: scale(0.92);
+  }
+}
+
+.btn-create {
+  background-color: var(--ink);
+  color: white;
+  height: 2.8rem;
+  width: 100px;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+
+  &:hover {
+    color: white;
+    background-color: color-mix(in srgb, var(--ink) 90%, transparent);
+  }
+
+  &:active {
+    transform: scale(0.90);
+  }
+}
+
+.category-header-actions .btn-icon-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.05);
+  color: #1a1a1a;
+  cursor: pointer;
+  transition: background 150ms ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  &:active {
+    background: rgba(0, 0, 0, 0.15);
+  }
+}
+
+textarea {
+  resize: none;
+}

@@ -7,6 +7,7 @@ import { FlashcardsComponent } from './page/flashcards/flashcards.component';
 import { StatisticsComponent } from './page/statistics/statistics.component';
 import { authGuard } from './guards/auth.guard';
 import { noAuthGuard } from './guards/no-auth.guard';
+import { CategoryComponent } from './page/category/category.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [noAuthGuard]},
@@ -18,6 +19,7 @@ export const routes: Routes = [
       { path: 'categories', component: CategoriesComponent },
       { path: 'flashcards', component: FlashcardsComponent },
       { path: 'statistics', component: StatisticsComponent },
+      { path: 'categories/:category', component: CategoryComponent},
     ]
   },
   { path: '**', redirectTo: 'login' }
