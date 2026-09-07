@@ -7,8 +7,7 @@
       <app-loading-spinner />
     } @else {
       @for (item of categories(); track item.name) {
-      <app-category-card [icon]="item.icon" [bgColor]="item.color" [name]="item.name" [description]="item.description"
-        [nWords]="item.words_count" class="col-6 col-md-4 col-lg-3 col-xl-2" (cardClick)="openCategory(item.name)" />
+      <app-category-card [icon]="item.icon" [bgColor]="item.color" [name]="item.name" [description]="item.description" [nWords]="item.words_count" class="col-6 col-md-4 col-lg-3 col-xl-2" (cardClick)="openCategory(item.name)" />
       }
       <div class="min-height col-6 col-md-4 col-lg-3 col-xl-2">
         <button type="button" class="btn add-category-card bg-transparent" (click)="openAddCategoryModal()">
@@ -20,8 +19,7 @@
   </div>
 </div>
 
-<app-responsive-modal [(open)]="isAddCategoryModalOpen" [minTranslateY]="0" [handleBc]="false" [showFooter]="true"
-  [showActionBar]="false">
+<app-responsive-modal [(open)]="isAddCategoryModalOpen" [minTranslateY]="0" [handleBc]="false" [showFooter]="true" [showActionBar]="false">
   <div class="modal-header p-3">
     <h4 class="modal-title" id="modal-basic-title">New Category</h4>
   </div>
@@ -35,15 +33,17 @@
 
     <div class="mb-3">
       <label for="categoryName" class="form-label">Name</label>
-      <input type="text" id="categoryName" class="form-control" placeholder="Es. Adjectives" name="categoryName"
-        [(ngModel)]="newCategoryName" />
+      <input type="text" id="categoryName" class="form-control" placeholder="Es. Adjectives" name="categoryName" [(ngModel)]="newCategoryName" />
     </div>
 
     <div class="mb-3">
-      <label for="categoryDescription" class="form-label">Description</label>
-      <textarea id="categoryDescription" class="form-control" rows="2" maxlength="90"
-        placeholder="Es. Descriptive words that modify or give more information about nouns or pronouns"
-        name="categoryDescription" [(ngModel)]="newCategoryDescription"></textarea>
+      <div class="d-flex justify-content-between align-items-center mb-1">
+        <label for="categoryDescription" class="form-label mb-0">Description</label>
+        <span class="text-muted small" [class.text-danger]="newCategoryDescription.length >= 90">
+          {{ newCategoryDescription.length }}/90
+        </span>
+      </div>
+      <textarea id="categoryDescription" class="form-control" rows="2" maxlength="90" placeholder="Es. Descriptive words that modify or give more information about nouns or pronouns" name="categoryDescription" [(ngModel)]="newCategoryDescription"></textarea>
     </div>
 
     <div class="mb-3">
@@ -56,10 +56,8 @@
         </button>
         }
       </div>
-      <input type="text" class="form-control form-control-sm mt-3" placeholder="Or paste a class, es. bi-star-fill"
-        name="customIcon" [(ngModel)]="newCategoryIcon" />
-      <div class="form-text">All icons on <a href="https://tabler.io/icons" target="_blank"
-          rel="noopener">tabler.io/icons</a>.</div>
+      <input type="text" class="form-control form-control-sm mt-3" placeholder="Or paste a class, es. bi-star-fill" name="customIcon" [(ngModel)]="newCategoryIcon" />
+      <div class="form-text">All icons on <a href="https://tabler.io/icons" target="_blank" rel="noopener">tabler.io/icons</a>.</div>
     </div>
 
     <div class="mb-2">
@@ -75,7 +73,6 @@
   </div>
 
   <div modal-footer class="d-flex gap-4 w-100 align-items-center justify-content-center pt-2 pb-2">
-    <button type="button" class="btn btn-create rounded-4 pe-4 ps-4" (click)="onCreate()" [disabled]="!isFormValid()"
-      [class.w-100]="mobileService.isMobile()">Create</button>
+    <button type="button" class="btn btn-create rounded-4 pe-4 ps-4" (click)="onCreate()" [disabled]="!isFormValid()" [class.w-100]="mobileService.isMobile()">Create</button>
   </div>
 </app-responsive-modal>
