@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, inject, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, input, model, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ResponsiveModalComponent } from '../responsive-modal/responsive-modal.component';
 import { KanaKeyboardComponent } from '../kana-keyboard/kana-keyboard.component';
@@ -22,7 +22,7 @@ export class WordEditModalComponent {
   protected categoriesService = inject(CategoriesService);
   protected mobileService = inject(MobileService);
 
-  open = input.required<boolean>();
+  open = model.required<boolean>();
   openChange = output<boolean>();
   word = input<Word | null>(null);
   saved = output<void>();
