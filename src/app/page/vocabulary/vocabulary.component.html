@@ -1,1 +1,43 @@
-<p>vocabulary works!</p>
+<div class="container pb-10 my-4" [class.align-items-center]="!words().length" [class.h-100]="!words().length">
+  @if(mobileService.isMobile()) {
+    <h2 class="fs-1 mb-2">Vocabulary</h2>
+    <div class="mobile-search-row d-flex align-items-center gap-2 mb-4">
+      <div class="search-box flex-grow-1 d-flex align-items-center gap-2 px-3 py-2 shadow-sm">
+        <i class="ti ti-search fs-5" aria-hidden="true"></i>
+        <input type="search" class="search-input flex-grow-1 border-0 bg-transparent" placeholder="Search words..." aria-label="Search vocabulary" [value]="searchTerm()" (input)="onSearchInput($any($event.target).value)" />
+      </div>
+      <div class="streak-badge d-flex align-items-center gap-1 px-3 flex-shrink-0">
+        <i class="bi bi-fire" aria-hidden="true" [class.text-secondary]="!inStreak" [class.text-danger]="inStreak"></i>
+        <span class="fw-semibold" [class.text-secondary]="!inStreak" [class.text-black]="inStreak">{{ nDays }}</span>
+      </div>
+    </div>
+  }
+  <div class="row g-3" [class.h-75]="!words().length && mobileService.isMobile()" [class.h-100]="!words().length && !mobileService.isMobile()">
+    @if (wordsService.loading()) {
+      <app-loading-spinner />
+    } @else {
+      @for (item of words(); track item.id; let i = $index) {
+        <app-vocabulary-card [category]="item.category" [word]="item.kanji ?? item.katakana ?? item.hiragana ?? ''" [translation]="item.translation" [spelling]="item.spelling" [description]="item.description ?? ''" (cardClick)="openVocabulary(i)" class="col-12 col-sm-6 col-md-4 col-lg-3" />
+      } @empty {
+        <div class="d-flex flex-column text-center py-5 justify-content-center align-items-center">
+          <div class="mb-3">
+            <i class="ti ti-books fs-1 text-muted opacity-50"></i>
+          </div>
+          <h5 class="fw-semibold mb-1">Empty</h5>
+          <p class="text-muted small mb-4">You haven't saved any words yet. Start now!</p>
+          <button class="btn btn-add-word rounded-pill px-4">
+            <i class="ti ti-plus me-1"></i> Add Word
+          </button>
+        </div>
+      }
+    }
+  </div>
+  @if(hasMore()) {
+    <app-load-more-button [loading]="loadingMore()" (load)="loadMore()" />
+  }
+</div>
+
+@if (clicked() != -1) {
+  <app-word-detail-modal [(open)]="isModalOpen" [word]="selectedWordFull()" (edit)="editWord()" (deleted)="clicked.set(-1)" />
+  <app-word-edit-modal [open]="isEditWordModalOpen()" (openChange)="isEditWordModalOpen.set($event)" [word]="selectedWordFull()" (saved)="isEditWordModalOpen.set(false)" />
+}
