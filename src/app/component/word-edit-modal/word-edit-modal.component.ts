@@ -8,6 +8,7 @@ import { MobileService } from '../../services/mobile.service';
 import { Word } from '../../core/models';
 import { splitIntoKanaUnits } from '../../shared/kana.util';
 import { ScriptMode } from '../../shared/kana.types';
+import { ToastService } from '../../services/toast-notifications.service';
 
 @Component({
   selector: 'app-word-edit-modal',
@@ -21,6 +22,7 @@ export class WordEditModalComponent {
   private wordsService = inject(WordsService);
   protected categoriesService = inject(CategoriesService);
   protected mobileService = inject(MobileService);
+  private toast = inject(ToastService);
 
   open = model.required<boolean>();
   openChange = output<boolean>();
@@ -80,8 +82,14 @@ export class WordEditModalComponent {
     };
 
     this.wordsService.update(w.id, updated).subscribe({
-      next: () => this.saved.emit(),
-      error: (err) => console.error('Error:', err)
+      next: () => {
+        this.toast.success('Word edited!');
+        this.saved.emit()
+      },
+      error: (err) => {
+        console.error(err);
+        this.toast.error('Could not edit the word. Please try again.');
+      }
     });
   }
 }

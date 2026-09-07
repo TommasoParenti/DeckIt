@@ -5,6 +5,7 @@ import { HoldButtonComponent } from '../hold-button/hold-button.component';
 import { WordsService } from '../../services/words.service';
 import { CategoriesService } from '../../services/categories.service';
 import { Word } from '../../core/models';
+import { ToastService } from '../../services/toast-notifications.service';
 
 @Component({
   selector: 'app-word-detail-modal',
@@ -16,6 +17,7 @@ import { Word } from '../../core/models';
 export class WordDetailModalComponent {
   private wordsService = inject(WordsService);
   private categoriesService = inject(CategoriesService);
+  private toast = inject(ToastService);
 
   open = model.required<boolean>();
   word = input<Word | null>(null);
@@ -46,10 +48,14 @@ export class WordDetailModalComponent {
     if (!w) return;
     this.wordsService.delete(w.id).subscribe({
       next: () => {
+        this.toast.success('Word deleted!');
         this.open.set(false);
         this.deleted.emit();
       },
-      error: (err) => console.error('Error:', err)
+      error: (err) => {
+        this.toast.error('Could not delete the word. Please try again.!');
+        console.error('Error:', err);
+      }
     });
   }
 }

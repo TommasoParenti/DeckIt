@@ -7,6 +7,7 @@ import { LoadMoreButtonComponent } from '../../component/load-more-button/load-m
 import { MobileService } from '../../services/mobile.service';
 import { AuthService } from '../../services/auth-service/auth.service';
 import { WordsService } from '../../services/words.service';
+import { ToastService } from '../../services/toast-notifications.service';
 
 @Component({
   selector: 'app-vocabulary',
@@ -19,6 +20,7 @@ export class VocabularyComponent {
   protected mobileService = inject(MobileService);
   protected wordsService = inject(WordsService);
   private auth = inject(AuthService);
+  private toast = inject(ToastService);
 
   words = this.wordsService.words;
   hasMore = this.wordsService.hasMore;
@@ -38,7 +40,10 @@ export class VocabularyComponent {
     const user = this.auth.user();
     if (!user) return;
     this.wordsService.load(user.id, 20).subscribe({
-      error: (err) => console.error('Error:', err)
+      error: (err) => {
+        console.error(err);
+        this.toast.error('Could not load the words. Please try again.');
+      }
     });
   }
 
@@ -46,7 +51,10 @@ export class VocabularyComponent {
     const user = this.auth.user();
     if (!user) return;
     this.wordsService.loadMore(user.id).subscribe({
-      error: (err) => console.error('Error:', err)
+      error: (err) => {
+        console.error(err);
+        this.toast.error('Could not load the words. Please try again.');
+      }
     });
   }
 

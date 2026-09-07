@@ -10,6 +10,7 @@ import { WordInsert } from '../../core/models';
 import { AuthService } from '../../services/auth-service/auth.service';
 import { splitIntoKanaUnits } from '../../shared/kana.util';
 import { ScriptMode } from '../../shared/kana.types';
+import { ToastService } from '../../services/toast-notifications.service';
 
 const SMALL_YOON = new Set(['ゃ', 'ゅ', 'ょ', 'ャ', 'ュ', 'ョ']);
 const SOKUON = new Set(['っ', 'ッ']);
@@ -34,6 +35,7 @@ export class NavbarComponent {
   protected categoriesService = inject(CategoriesService);
   protected wordsService = inject(WordsService);
   private auth = inject(AuthService);
+  private toast = inject(ToastService);
 
   readonly navItems: NavItem[] = [
     { path: '/vocabulary', icon: 'ti-book', label: 'Vocabulary' },
@@ -160,10 +162,14 @@ export class NavbarComponent {
     };
     this.wordsService.create(newWord).subscribe({
       next: () => {
+        this.toast.success('Word added!');
         this.resetForm();
         this.isAddWordModalOpen.set(false);
       },
-      error: (err) => console.error("Error", err)
+      error: (err) => { 
+        console.error("Error", err);
+        this.toast.error('Could not add the word. Please try again.');
+      }
     });
   }
 

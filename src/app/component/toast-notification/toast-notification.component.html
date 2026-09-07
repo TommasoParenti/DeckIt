@@ -1,0 +1,11 @@
+<div class="toast-stack" aria-live="polite" aria-atomic="true">
+  @for (toast of toastService.toasts(); track toast.id) {
+    <div class="toast-item toast-{{ toast.type }}" [class.toast-leaving]="toast.removing" [attr.role]="toast.type === 'error' ? 'alert' : 'status'">
+        <i class="ti {{ iconFor(toast.type) }} toast-icon" aria-hidden="true"></i>
+        <span class="toast-message">{{ toast.message }}</span>
+        <button type="button" class="toast-close" (click)="dismiss(toast.id)" aria-label="Dismiss notification">
+            <i class="ti ti-x" aria-hidden="true"></i>
+        </button>
+    </div>
+  }
+</div>

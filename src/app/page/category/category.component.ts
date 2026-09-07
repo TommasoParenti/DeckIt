@@ -13,6 +13,7 @@ import { LoadingSpinnerComponent } from '../../component/loading-spinner/loading
 import { LoadMoreButtonComponent } from '../../component/load-more-button/load-more-button.component';
 import { WordDetailModalComponent } from '../../component/word-detail-modal/word-detail-modal.component';
 import { WordEditModalComponent } from '../../component/word-edit-modal/word-edit-modal.component';
+import { ToastService } from '../../services/toast-notifications.service';
 
 @Component({
   selector: 'app-category',
@@ -28,6 +29,7 @@ export class CategoryComponent {
   protected mobileService = inject(MobileService);
   private auth = inject(AuthService);
   private router = inject(Router);
+  private toast = inject(ToastService);
 
   category = input.required<string>();
   currentCategory = computed(() =>
@@ -57,7 +59,10 @@ export class CategoryComponent {
       const user = this.auth.user();
       if (!user) return;
       this.wordsService.loadByCategory(this.category(), user.id, 20).subscribe({
-        error: (err) => console.error('Error:', err)
+        error: (err) => {
+          console.error(err);
+          this.toast.error('Could not load the words. Please try again.');
+        }
       });
     })
   }
@@ -66,7 +71,10 @@ export class CategoryComponent {
     const user = this.auth.user();
     if (!user) return;
     this.wordsService.loadMoreByCategory(user.id).subscribe({
-      error: (err) => console.error('Error:', err)
+      error: (err) => {
+        console.error(err);
+        this.toast.error('Could not load the words. Please try again.');
+      }
     });
   }
 
@@ -77,8 +85,14 @@ export class CategoryComponent {
     if (!user) return;
 
     this.categoriesService.delete(user.id, current.name).subscribe({
-      next: () => this.goBack(),
-      error: (err) => console.error('Error:', err)
+      next: () => {
+        this.toast.success('Category deleted!');
+        this.goBack()
+      },
+      error: (err) => {
+        console.error(err);
+        this.toast.error('Could not delete the category. Please try again.');
+      }
     });
   }
 
@@ -133,10 +147,14 @@ export class CategoryComponent {
 
     this.categoriesService.update(user.id, current.name, updated).subscribe({
       next: () => {
+        this.toast.success('Category edited!');
         this.isEditCategoryModalOpen.set(false);
         this.router.navigate(['categories', updated.name], { replaceUrl: true });
       },
-      error: (err) => console.error('Error:', err)
+      error: (err) => {
+        console.error(err);
+        this.toast.error('Could not edit the category. Please try again.');
+      }
     });
   }
 
