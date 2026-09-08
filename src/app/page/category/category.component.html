@@ -1,11 +1,21 @@
-<div class="category-header">
+<div class="category-header d-flex align-items-center sticky-top rounded-4 shadow-sm" [style.--accent]="'#' + (currentCategory()?.color ?? '6c757d')">
   <button type="button" class="btn-back" (click)="goBack()">
     <i class="ti ti-arrow-left"></i>
   </button>
-  <h1 class="category-title">{{ category() }}</h1>
-  <div class="category-header-actions ms-auto d-flex align-items-center gap-1">
+  @if(!mobileService.isMobile()) {
+    <span class="category-icon-bubble flex-shrink-0 d-flex align-items-center justify-content-center">
+      <i class="ti {{ currentCategory()?.icon || 'ti-tag' }} fs-5" aria-hidden="true"></i>
+    </span>
+  }
+  <div class="category-header-text">
+    <h1 class="category-title">{{ category() }}</h1>
+    @if (currentCategory()?.description) {
+      <p class="category-description mb-0">{{ currentCategory()?.description }}</p>
+    }
+  </div>
+  <div class="category-header-actions ms-auto d-flex align-items-center gap-2">
     <button type="button" class="btn-icon-header" (click)="editCategory()">
-      <i class="ti ti-pencil"></i>
+      <i class="ti ti-pencil fs-5"></i>
     </button>
     <app-hold-button class="btn-icon-header-hold border border-danger rounded-5" icon="ti ti-trash" color="danger" (holdComplete)="deleteCategory()" />
   </div>
