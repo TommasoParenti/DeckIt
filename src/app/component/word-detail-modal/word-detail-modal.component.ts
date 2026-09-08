@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, model, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, model, output } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ResponsiveModalComponent } from '../responsive-modal/responsive-modal.component';
 import { HoldButtonComponent } from '../hold-button/hold-button.component';
@@ -24,7 +24,8 @@ export class WordDetailModalComponent {
 
   edit = output<void>();
   deleted = output<void>();
-  isFavorite = signal(false);
+
+  isFavorite = computed(() => this.word()?.is_favourite ?? false);
 
   selectedChars = computed(() => {
     const w = this.word();
@@ -40,7 +41,14 @@ export class WordDetailModalComponent {
 
   toggleStar(event: Event): void {
     event.stopPropagation();
-    this.isFavorite.set(!this.isFavorite());
+    const w = this.word();
+    if (!w) return;
+    this.wordsService.update(w.id, { is_favourite: !w.is_favourite }).subscribe({
+      error: (err) => {
+        console.error(err);
+        this.toast.error('Could not update favourite. Please try again.');
+      }
+    });
   }
 
   onDelete(): void {

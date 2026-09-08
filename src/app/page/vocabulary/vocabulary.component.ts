@@ -8,6 +8,7 @@ import { MobileService } from '../../services/mobile.service';
 import { AuthService } from '../../services/auth-service/auth.service';
 import { WordsService } from '../../services/words.service';
 import { ToastService } from '../../services/toast-notifications.service';
+import { Word } from '../../core/models';
 
 @Component({
   selector: 'app-vocabulary',
@@ -73,6 +74,15 @@ export class VocabularyComponent {
     if (!isOpen && this.clicked() !== -1) {
       setTimeout(() => this.isModalOpen.set(true), 150);
     }
+  }
+
+  onToggleFavourite(word: Word): void {
+    this.wordsService.update(word.id, { is_favourite: !word.is_favourite }).subscribe({
+      error: (err) => {
+        console.error(err);
+        this.toast.error('Could not update favourite. Please try again.');
+      }
+    });
   }
 
   onSearchInput(value: string): void {

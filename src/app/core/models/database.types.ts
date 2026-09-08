@@ -80,6 +80,7 @@ export type Database = {
           description: string | null
           hiragana: string | null
           id: string
+          is_favourite: boolean
           kanji: string | null
           katakana: string | null
           spelling: string[]
@@ -92,6 +93,7 @@ export type Database = {
           description?: string | null
           hiragana?: string | null
           id?: string
+          is_favourite?: boolean
           kanji?: string | null
           katakana?: string | null
           spelling: string[]
@@ -104,6 +106,7 @@ export type Database = {
           description?: string | null
           hiragana?: string | null
           id?: string
+          is_favourite?: boolean
           kanji?: string | null
           katakana?: string | null
           spelling?: string[]

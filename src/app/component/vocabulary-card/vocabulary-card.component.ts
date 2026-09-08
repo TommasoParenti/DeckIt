@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, model, output } from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
 import { CategoriesService } from '../../services/categories.service';
 
 @Component({
@@ -15,14 +15,15 @@ export class VocabularyCardComponent {
   translation = input('');
   description = input('');
   spelling = input<string[]>([]);
-  categoryColor = computed(() => { return this.categoriesService.categories().find(c => c.name === this.category())?.color ?? '6c757d' })
+  isFavourite = input(false);
+  categoryColor = computed(() => this.categoriesService.categories().find(c => c.name === this.category())?.color ?? '6c757d');
 
-  isFavorite = model(false);
   cardClick = output<void>();
+  toggleFavourite = output<void>();
 
   toggleStar(event: Event): void {
     event.stopPropagation();
-    this.isFavorite.set(!this.isFavorite());
+    this.toggleFavourite.emit();
   }
 
   onCardClick(): void {
