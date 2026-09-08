@@ -12,7 +12,7 @@
     @if (word(); as w) {
       <div class="row g-0">
         <div class="col-12 col-md-5 japanese-section d-flex align-items-center justify-content-center pt-5 pb-5">
-          <div class="d-flex flex-column">
+          <div class="d-flex flex-column justify-content-center align-items-center">
             <div class="jp-word text-center">
               @for (char of selectedChars(); track $index) {
                 <ruby>{{ char }}<rt>{{ w.spelling[$index] }}</rt></ruby>
