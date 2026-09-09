@@ -10,4 +10,5 @@ const content = `export const environment = {
 };
 `;
 
+fs.mkdirSync(path.dirname(targetPath), { recursive: true });
 fs.writeFileSync(targetPath, content);
