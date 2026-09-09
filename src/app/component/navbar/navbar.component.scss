@@ -158,7 +158,8 @@ i.ti {
 .sidebar-search {
   background-color: #FFFFFF;
   color: var(--ink-faint);
-  transition: box-shadow 0.15s ease;
+  border: 2px solid transparent;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
   border-radius: 0.7rem;
 
   .search-input {
@@ -180,7 +181,9 @@ i.ti {
   }
 
   &:focus-within {
-    box-shadow: 0 0 0 2px rgba(91, 127, 166, 0.25);
+    border-color: #86b7fe;
+    border-width: 2px;
+    box-shadow: 0 0 0 0.35rem rgba(13, 110, 253, 0.25);
   }
 }
 
