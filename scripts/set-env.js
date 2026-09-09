@@ -5,8 +5,8 @@ const targetPath = path.join(__dirname, '../src/environments/environment.ts');
 
 const content = `export const environment = {
   production: true,
-  supabaseUrl: '${process.env.SUPABASE_URL}',
-  supabaseAnonKey: '${process.env.SUPABASE_ANON_KEY}',
+  SUPABASE_URL: '${process.env.SUPABASE_URL}',
+  SUPABASE_KEY: '${process.env.SUPABASE_ANON_KEY}',
 };
 `;
 
