@@ -50,11 +50,6 @@
   background: transparent !important;
 }
 
-.floating-footer-mobile {
-  margin-top: 0px;
-  margin-bottom: 12px;
-}
-
 .responsive-modal {
   position: relative;
   width: min(800px, calc(100% - 32px));
@@ -148,17 +143,20 @@
   }
 
   .floating-toolbar {
-    position: fixed;
-    bottom: calc(1.6rem + env(safe-area-inset-bottom));
-    left: 50%;
-    transform: translateX(-50%);
-    margin-bottom: 0;
+    margin-bottom: 1.3rem;
     animation: toolbar-fade-in 200ms ease-out;
   }
 
-  .floating-toolbar.toolbar-hidden {
+  .floating-footer {
+    margin-top: 0px;
+    margin-bottom: 1.3rem;
+    width: 100%;
+    animation: toolbar-fade-in 200ms ease-out;
+  }
+
+  .toolbar-hidden {
     opacity: 0;
-    transform: translate(-50%, 16px);
+    transform: translateY(16px);
     transition: opacity 100ms ease-in, transform 100ms ease-in;
     pointer-events: none;
   }
@@ -175,6 +173,6 @@
 }
 
 @keyframes toolbar-fade-in {
-  from { opacity: 0; transform: translate(-50%, -8px); }
-  to { opacity: 1; transform: translate(-50%, 0); }
+  from { opacity: 0; transform: translate(-8px); }
+  to { opacity: 1; transform: translate(0); }
 }

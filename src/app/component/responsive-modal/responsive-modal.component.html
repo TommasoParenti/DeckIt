@@ -6,7 +6,7 @@
           <ng-content select="[modal-actions]"></ng-content>
         </div>
       }
-      
+
       <div class="responsive-modal" [class.mobile]="mobileService.isMobile()" [class.desktop]="!mobileService.isMobile()" [class.dragging]="isDragging()" [style.transform]="sheetTransform()" (click)="onModalClick($event)">
         @if (mobileService.isMobile()) {
           <div class="w-100 drag-handle-zone" [class.handle-zone]="handleBc()" (touchstart)="onTouchStart($event)" (touchmove)="onTouchMove($event)" (touchend)="onTouchEnd()">
@@ -22,7 +22,7 @@
       </div>
 
       @if (showFooter()) {
-        <div class="floating-bar floating-footer" [class.floating-footer-mobile]="mobileService.isMobile()" (click)="$event.stopPropagation()">
+        <div class="floating-bar floating-footer" [class.floating-footer-mobile]="mobileService.isMobile()" [class.toolbar-hidden]="isDragging() || isClosing()" (click)="$event.stopPropagation()">
           <ng-content select="[modal-footer]"></ng-content>
         </div>
       }
