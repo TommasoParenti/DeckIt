@@ -284,6 +284,36 @@ i.ti {
   }
 }
 
+.flame-icon {
+  display: block;
+  color: var(--bs-secondary, #6c757d);
+  transition: color 0.2s ease;
+
+  .flame-outline {
+    transition: opacity 0.2s ease;
+  }
+
+  .flame-fill {
+    opacity: 0;
+    transform-origin: center;
+    transform: scale(0.4);
+    transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  &.in-streak {
+    color: var(--bs-danger, #dc3545);
+
+    .flame-outline {
+      opacity: 0;
+    }
+
+    .flame-fill {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
 @media (max-width: 767.98px) {
   .description {
     height: 200px;

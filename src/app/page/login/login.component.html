@@ -11,7 +11,7 @@
       <div class="input-group">
             <input id="gate-password" class="gate-input form-control" [class.is-invalid]="error()" [type]="showPassword() ? 'text' : 'password'" name="password" [ngModel]="password()" (ngModelChange)="onPasswordChange($event)" placeholder="••••••••" autocomplete="current-password" autofocus/>
             <button class="gate-toggle-pw btn" type="button" (click)="togglePasswordVisibility()">
-                <i class="bi" [class.bi-eye]="!showPassword()" [class.bi-eye-slash]="showPassword()"></i>
+                <i class="ti" [class.ti-eye]="!showPassword()" [class.ti-eye-closed]="showPassword()"></i>
             </button>
         </div>
     </div>

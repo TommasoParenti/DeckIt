@@ -46,6 +46,7 @@ export class NavbarComponent {
 
   // Placeholder stats. Once the backend exists, these should stop being plain fields and instead come from injected services
   nDays = 0;
+  inStreak = false;
   nInteractions = signal(3);
   readonly maxReps = 5;
 
