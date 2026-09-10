@@ -16,7 +16,7 @@
 .mobile-nav-container {
   z-index: 1040;
   padding-inline: 5px;
-  padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
+  padding-bottom: calc(0.8rem + env(safe-area-inset-bottom));
   margin-right: 0.2rem;
 }
 
