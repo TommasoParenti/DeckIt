@@ -1,0 +1,29 @@
+.load-more-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.btn-load-more {
+  background-color: transparent;
+  border: 1px solid var(--words);
+  color: var(--words);
+  transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background-color: var(--words);
+    color: white;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .btn-load-more {
+    width: 100%;
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+  }
+}

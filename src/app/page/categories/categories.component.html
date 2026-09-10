@@ -1,1 +1,78 @@
-<p>categories works!</p>
+<div class="container pb-10 my-4">
+  @if(mobileService.isMobile()) {
+    <h2 class="fs-1 mb-4">Categories</h2>
+  }
+  <div class="row g-3">
+    @if (categoriesService.loading()) {
+      <app-loading-spinner />
+    } @else {
+      @for (item of categories(); track item.name) {
+      <app-category-card [icon]="item.icon" [bgColor]="item.color" [name]="item.name" [description]="item.description" [nWords]="item.words_count" class="col-6 col-md-4 col-lg-3 col-xl-2" (cardClick)="openCategory(item.name)" />
+      }
+      <div class="min-height col-6 col-md-4 col-lg-3 col-xl-2">
+        <button type="button" class="btn add-category-card bg-transparent" (click)="openAddCategoryModal()">
+          <i class="ti ti-plus"></i>
+          <span>New Category</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>
+
+<app-responsive-modal [(open)]="isAddCategoryModalOpen" [minTranslateY]="0" [handleBc]="false" [showFooter]="true" [showActionBar]="false">
+  <div class="modal-header p-3">
+    <h4 class="modal-title" id="modal-basic-title">New Category</h4>
+  </div>
+
+  <div class="modal-body p-3">
+    <div class="mb-4 d-flex justify-content-center">
+      <div class="icon-chip-preview" [style.background]="previewBackground()" [style.color]="previewColor()">
+        <i class="ti fs-2" [class]="newCategoryIcon"></i>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="categoryName" class="form-label">Name</label>
+      <input type="text" id="categoryName" class="form-control" placeholder="Es. Adjectives" name="categoryName" [(ngModel)]="newCategoryName" />
+    </div>
+
+    <div class="mb-3">
+      <div class="d-flex justify-content-between align-items-center mb-1">
+        <label for="categoryDescription" class="form-label mb-0">Description</label>
+        <span class="text-muted small" [class.text-danger]="newCategoryDescription.length >= 90">
+          {{ newCategoryDescription.length }}/90
+        </span>
+      </div>
+      <textarea id="categoryDescription" class="form-control" rows="2" maxlength="90" placeholder="Es. Descriptive words that modify or give more information about nouns or pronouns" name="categoryDescription" [(ngModel)]="newCategoryDescription"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Icon</label>
+      <div class="icon-picker">
+        @for (icon of iconOptions; track icon) {
+        <button type="button" class="icon-option" [class.active]="newCategoryIcon === icon"
+          (click)="newCategoryIcon = icon">
+          <i class="ti fs-5" [class]="icon"></i>
+        </button>
+        }
+      </div>
+      <input type="text" class="form-control form-control-sm mt-3" placeholder="Or paste a class, es. ti-star" name="customIcon" [(ngModel)]="newCategoryIcon" />
+      <div class="form-text">All icons on <a href="https://tabler.io/icons" target="_blank" rel="noopener">tabler.io/icons</a>.</div>
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Color</label>
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <input type="color" class="color-input" name="colorPicker" [(ngModel)]="newCategoryColor" />
+        <input type="text" class="form-control form-control-sm" name="colorHex" [(ngModel)]="newCategoryColor" />
+      </div>
+      @if (!isValidColor()) {
+        <div class="form-text text-danger">Enter a valid hex color (e.g. #5B7FA6)</div>
+      }
+    </div>
+  </div>
+
+  <div modal-footer class="d-flex gap-4 w-100 align-items-center justify-content-center pt-2 pb-2">
+    <button type="button" class="btn btn-create rounded-4 pe-4 ps-4" (click)="onCreate()" [disabled]="!isFormValid()" [class.w-100]="mobileService.isMobile()">Create</button>
+  </div>
+</app-responsive-modal>

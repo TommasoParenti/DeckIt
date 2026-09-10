@@ -1,0 +1,31 @@
+@if (open()) {
+  <div class="modal-backdrop" (mousedown)="onBackdropMouseDown($event)" (click)="onBackdropClick($event)">
+    <div class="modal-stack">
+      @if (showActionBar()) {
+        <div class="floating-toolbar align-items-center justify-content-center" [class.toolbar-hidden]="isDragging() || isClosing()" (click)="$event.stopPropagation()">
+          <ng-content select="[modal-actions]"></ng-content>
+        </div>
+      }
+
+      <div class="responsive-modal" [class.mobile]="mobileService.isMobile()" [class.desktop]="!mobileService.isMobile()" [class.dragging]="isDragging()" [style.transform]="sheetTransform()" (click)="onModalClick($event)">
+        @if (mobileService.isMobile()) {
+          <div class="w-100 drag-handle-zone" [class.handle-zone]="handleBc()" (touchstart)="onTouchStart($event)" (touchmove)="onTouchMove($event)" (touchend)="onTouchEnd()">
+            <span class="sheet-handle"></span>
+          </div>
+        }
+        <div #sheetBody class="modal-body">
+          @if (!mobileService.isMobile()) {
+            <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+          }
+          <ng-content></ng-content>
+        </div>
+
+        @if (showFooter()) {
+          <div class="modal-footer-bar" (click)="$event.stopPropagation()">
+            <ng-content select="[modal-footer]"></ng-content>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+}

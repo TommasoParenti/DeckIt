@@ -1,1 +1,46 @@
-<p>vocabulary works!</p>
+<div class="container pb-10 my-4" [class.align-items-center]="!words().length" [class.h-100]="!words().length">
+  @if(mobileService.isMobile()) {
+    <h2 class="fs-1 mb-2">Vocabulary</h2>
+    <div class="mobile-search-row d-flex align-items-center gap-2 mb-4">
+      <div class="search-box flex-grow-1 d-flex align-items-center gap-2 px-3 py-2 shadow-sm">
+        <i class="ti ti-search fs-5" aria-hidden="true"></i>
+        <input type="search" class="search-input flex-grow-1 border-0 bg-transparent" placeholder="Search words..." aria-label="Search vocabulary" [value]="searchTerm()" (input)="onSearchInput($any($event.target).value)" />
+      </div>
+      <div class="streak-badge d-flex align-items-center gap-1 px-3 flex-shrink-0">
+        <svg class="flame-icon" [class.in-streak]="inStreak" viewBox="0 0 24 24" width="20" height="20">
+          <path class="flame-outline" d="M12 10.941c2.333 -3.308 .167 -7.823 -1 -8.941c0 3.395 -2.235 5.299 -3.667 6.706c-1.43 1.408 -2.333 3.294 -2.333 5.588c0 3.704 3.134 6.706 7 6.706c3.866 0 7 -3.002 7 -6.706c0 -1.712 -1.232 -4.403 -2.333 -5.588c-2.084 3.353 -3.257 3.353 -4.667 2.235" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <path class="flame-fill" d="M10 2c0 -.88 1.056 -1.331 1.692 -.722c1.958 1.876 3.096 5.995 1.75 9.12l-.08 .174l.012 .003c.625 .133 1.203 -.43 2.303 -2.173l.14 -.224a1 1 0 0 1 1.582 -.153c1.334 1.435 2.601 4.377 2.601 6.27c0 4.265 -3.591 7.705 -8 7.705s-8 -3.44 -8 -7.706c0 -2.252 1.022 -4.716 2.632 -6.301l.605 -.589c.241 -.236 .434 -.43 .618 -.624c1.43 -1.512 2.145 -2.924 2.145 -4.78" fill="currentColor" />
+        </svg>
+        <span class="fw-semibold" [class.text-secondary]="!inStreak" [class.text-black]="inStreak">{{ nDays }}</span>
+      </div>
+    </div>
+  }
+  <div class="row g-3" [class.h-75]="!words().length && mobileService.isMobile()" [class.h-100]="!words().length && !mobileService.isMobile()">
+    @if (wordsService.loading()) {
+      <app-loading-spinner />
+    } @else {
+      @for (item of words(); track item.id; let i = $index) {
+        <app-vocabulary-card [category]="item.category" [word]="item.kanji ?? item.katakana ?? item.hiragana ?? ''" [translation]="item.translation" [spelling]="item.spelling" [description]="item.description ?? ''" [isFavourite]="item.is_favourite" (cardClick)="openVocabulary(i)" (toggleFavourite)="onToggleFavourite(item)" class="col-12 col-sm-6 col-md-4 col-lg-3" />
+      } @empty {
+        <div class="d-flex flex-column text-center py-5 justify-content-center align-items-center">
+          <div class="mb-3">
+            <i class="ti ti-books fs-1 text-muted opacity-50"></i>
+          </div>
+          <h5 class="fw-semibold mb-1">Empty</h5>
+          <p class="text-muted small mb-4">You haven't saved any words yet. Start now!</p>
+          <button class="btn btn-add-word rounded-pill px-4">
+            <i class="ti ti-plus me-1"></i> Add Word
+          </button>
+        </div>
+      }
+    }
+  </div>
+  @if(hasMore()) {
+    <app-load-more-button [loading]="loadingMore()" (load)="loadMore()" />
+  }
+</div>
+
+@if (clicked() != -1) {
+  <app-word-detail-modal [(open)]="isModalOpen" [word]="selectedWordFull()" (edit)="editWord()" (deleted)="clicked.set(-1)" />
+  <app-word-edit-modal [open]="isEditWordModalOpen()" (openChange)="onEditModalOpenChange($event)" [word]="selectedWordFull()" (saved)="isEditWordModalOpen.set(false)" />
+}

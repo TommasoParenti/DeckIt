@@ -1,0 +1,143 @@
+.japanese-section {
+  min-height: 100%;
+  border-right: 1px solid var(--bs-border-color);
+  background-color: #f4f4f4;
+  padding: 0rem 1rem 0rem 1rem;
+}
+
+.jp-word {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 0.4rem;
+}
+
+.jp-word ruby {
+  display: inline-flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--ink-strong);
+  line-height: 1;
+}
+
+.jp-word rt {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--ink-faint);
+  text-transform: lowercase;
+}
+
+.description {
+  max-width: 100%;
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 1.4;
+  display: -webkit-box;
+  line-clamp: 4;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  word-break: break-word
+}
+
+.chip-category {
+  background: color-mix(in srgb, var(--accent) 16%, white);
+  color: color-mix(in srgb, var(--accent) 75%, black);
+  padding: 0.15rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.word {
+  color: var(--accent-words);
+}
+
+.info-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.btn-icon,
+.btn-icon-hold {
+  border: none;
+  flex: 1;
+  background: transparent;
+  color: #6c757d;
+  font-size: 1.1rem;
+  border-radius: 1.5rem;
+  line-height: 1;
+  transition: 0.2s;
+  margin-top: 0.1rem;
+  margin-bottom: 0.1rem;
+
+  &:hover {
+    background-color: rgba(226, 226, 226, 0.779);
+  }
+  &.text-danger:hover {
+    color: #ff0019;
+  }
+}
+
+.btn-icon {
+  padding: 0.4rem 1.5rem;
+}
+
+.btn-star {
+  transition: transform 0.15s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.star-icon {
+  display: block;
+  color: var(--ink-faint, #a3a3a3);
+  transition: color 0.2s ease;
+
+  .star-outline {
+    transition: opacity 0.2s ease;
+  }
+
+  .star-fill {
+    opacity: 0;
+    transform-origin: center;
+    transform: scale(0.4);
+    transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  &.is-favourite {
+    color: #ffc107;
+
+    .star-outline {
+      opacity: 0;
+    }
+
+    .star-fill {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+@media (max-width: 767.98px) {
+  .japanese-section {
+    min-height: 200px;
+    border-right: 0;
+    border-bottom: 1px solid var(--bs-border-color);
+  }
+
+  .jp-word {
+    font-size: 3.2rem;
+  }
+
+  .jp-word rt {
+    font-size: 0.85rem;
+  }
+}

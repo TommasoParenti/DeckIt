@@ -1,0 +1,90 @@
+.toast-container {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1090;
+  width: min(360px, calc(100vw - 2rem));
+  pointer-events: none;
+
+  > :not(:last-child) {
+    margin-bottom: 0.5rem;
+  }
+}
+
+.toast-item {
+  pointer-events: auto;
+  background: var(--glass);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  border: 1px solid rgba(230, 224, 211, 0.9);
+  box-shadow: 0 4px 16px rgba(33, 31, 28, 0.12);
+  animation: toast-in 0.25s cubic-bezier(0.34, 1.4, 0.64, 1);
+
+  &.toast-leaving {
+    animation: toast-out 0.2s ease forwards;
+  }
+}
+
+.toast-message {
+  color: var(--ink);
+  line-height: 1.15;
+}
+
+.toast-icon-bubble {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 100%;
+
+  i {
+    -webkit-text-stroke: 0.3px currentColor;
+  }
+}
+
+.toast-success {
+  background-color: color-mix(in srgb, var(--bs-success, #2e7d32) 16%, transparent);
+  color: var(--bs-success, #2e7d32);
+}
+
+.toast-error {
+  background-color: color-mix(in srgb, var(--bs-danger, #dc3545) 16%, transparent);
+  color: var(--bs-danger, #dc3545);
+}
+
+.toast-warning {
+  background-color: color-mix(in srgb, var(--bs-warning, #f0ad4e) 20%, transparent);
+  color: color-mix(in srgb, var(--bs-warning, #f0ad4e) 70%, black);
+}
+
+.toast-info {
+  background-color: color-mix(in srgb, var(--bs-info, #0dcaf0) 18%, transparent);
+  color: color-mix(in srgb, var(--bs-info, #0dcaf0) 65%, black);
+}
+
+.p-2-alt {
+  padding: 0.7rem;
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes toast-out {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 0; transform: translateY(-8px) scale(0.98); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast-item { animation: none; }
+}
+
+@media (max-width: 767.98px) {
+  .toast-container {
+    top: auto;
+    bottom: calc(5rem + env(safe-area-inset-bottom));
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding-inline: 0.5rem;
+  }
+}

@@ -50,3 +50,8 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+/supabase
+.temp
+migrations
+src/environments/environment.ts

@@ -1,0 +1,43 @@
+<app-responsive-modal [(open)]="open" [style.--accent]="'#' + categoryColor()">
+  <div modal-actions class="d-flex w-100 h-100">
+    <button class="btn-icon btn-star" (click)="toggleStar($event)">
+      <svg class="star-icon" [class.is-favourite]="isFavorite()" viewBox="0 0 24 24" width="20" height="20">
+        <path class="star-outline" d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873l-6.158 -3.245" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        <path class="star-fill" d="M8.243 7.34l-6.38 .925l-.113 .023a1 1 0 0 0 -.44 1.684l4.622 4.499l-1.09 6.355l-.013 .11a1 1 0 0 0 1.464 .944l5.706 -3l5.693 3l.1 .046a1 1 0 0 0 1.352 -1.1l-1.091 -6.355l4.624 -4.5l.078 -.085a1 1 0 0 0 -.633 -1.62l-6.38 -.926l-2.852 -5.78a1 1 0 0 0 -1.794 0l-2.853 5.78z" fill="currentColor" />
+      </svg>
+    </button>
+    <button type="button" class="btn-icon" (click)="edit.emit()">
+      <i class="ti ti-pencil fs-5"></i>
+    </button>
+    <app-hold-button class="btn-icon-hold" icon="ti ti-trash" color="danger" (holdComplete)="onDelete()" />
+  </div>
+  <div class="modal-body p-0">
+    @if (word(); as w) {
+      <div class="row g-0">
+        <div class="col-12 col-md-5 japanese-section d-flex align-items-center justify-content-center pt-5 pb-5">
+          <div class="d-flex flex-column justify-content-center align-items-center">
+            <div class="jp-word text-center">
+              @for (char of selectedChars(); track $index) {
+                <ruby>{{ char }}<rt>{{ w.spelling[$index] }}</rt></ruby>
+              }
+            </div>
+            <span class="word mt-4 fw-bold m-auto">{{ w.translation }}</span>
+          </div>
+        </div>
+        <div class="col-12 col-md-7 p-4 info-section">
+          <div class="d-flex flex-row mb-2">
+            <span class="chip chip-category text-uppercase me-auto">{{ w.category }}</span>
+          </div>
+          <div class="mb-3 mt-3">
+            <p class="description mb-0">{{ w.description }}</p>
+          </div>
+          <div>
+            <small class="text-body-secondary d-block mb-1">
+              Added {{ w.added_at | date:'d MMMM yyyy HH:mm' }}
+            </small>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</app-responsive-modal>

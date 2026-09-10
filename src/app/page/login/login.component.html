@@ -11,10 +11,13 @@
       <div class="input-group">
             <input id="gate-password" class="gate-input form-control" [class.is-invalid]="error()" [type]="showPassword() ? 'text' : 'password'" name="password" [ngModel]="password()" (ngModelChange)="onPasswordChange($event)" placeholder="••••••••" autocomplete="current-password" autofocus/>
             <button class="gate-toggle-pw btn" type="button" (click)="togglePasswordVisibility()">
-                <i class="bi" [class.bi-eye]="!showPassword()" [class.bi-eye-slash]="showPassword()"></i>
+                <i class="ti" [class.ti-eye]="!showPassword()" [class.ti-eye-closed]="showPassword()"></i>
             </button>
         </div>
     </div>
+    @if (tooManyAttempts()) {
+      <p class="t text-danger">Too many attempts. Try again later.</p>
+    }
     <button class="gate-btn btn w-100 rounded-3 mt-1" type="submit" [disabled]="!canSubmit()">
       @if (!loading()) {
         <span>Enter</span>

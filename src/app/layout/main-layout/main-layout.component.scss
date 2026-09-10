@@ -1,0 +1,8 @@
+.page-content {
+  height: 95%;
+
+  @media (min-width: 992px) {
+    margin-left: 300px;
+    padding-bottom: 0;
+  }
+}

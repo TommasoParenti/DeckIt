@@ -1,12 +1,64 @@
-/* You can add global styles to this file, and also import other style files */
-
-/* Importing Bootstrap SCSS file. */
-@import 'bootstrap/scss/bootstrap';
+$modal-fade-transform: scale(0.9) !default;
+@use 'bootstrap/scss/bootstrap';
 
 html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100vh;
-    min-height: 100dvh;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f4f4f4;
+}
+
+app-root {
+  display: block;
+  min-height: 100%;
+  height: 100vh;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+body {
+  display: flow-root; 
+  user-select: none;
+}
+
+:root {
+  --ink: #211F1C;
+  --ink-soft: #414141;
+  --ink-faint: #8A8175;
+  --ink-strong: #2A2B2A;
+  --surface: #ebebeb;
+  --surface-elevated: #ffffff;
+  --glass: #ffffff69;
+  --glass-active: #d1d1d17c;
+  --font-brand: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --words: #246dba;
+  --some-words: #376290;
+  --accent-words: #5B7FA6;
+  --accent-words-washed: #daeafa;
+  --categories: #e58200;
+  --accent-categories: #B98A4E;
+  --accent-categories-washed: #f8e9d5;
+  --accent-wip: #E8A33D;
+  --accent-wip-washed: #FCEFD9;
+}
+
+.modal-open .modal-backdrop {
+  backdrop-filter: blur(5px);
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 1 !important;
+}
+
+.modal-content {
+  border-radius: 1rem;
+}
+
+.title {
+  font-family: var(--font-brand);
+}
+
+@media (max-width: 767.98px) {
+  app-root {
+    padding: 0.5rem;
+  }
 }

@@ -1,0 +1,10 @@
+<div class="card shadow-sm p-3 card-clickable" [style.--accent]="'#' + (bgColor() ?? '6c757d')" (click)="onCardClick()">
+  <div class="d-flex flex-column flex-grow-1 align-items-center justify-content-center text-center h-100">
+    <div class="icon-chip mb-2">
+      <i class="ti fs-4" [class]="icon()"></i>
+    </div>
+    <h6 class="fs-6 fw-bold mb-1 mt-1">{{ name() }}</h6>
+    <p class="description mb-2">{{ description() }}</p>
+    <span class="word-badge mt-2">{{ nWords() ?? 0 }} parole</span>
+  </div>
+</div>

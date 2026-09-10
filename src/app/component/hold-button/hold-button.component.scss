@@ -1,0 +1,42 @@
+.hold-btn {
+  position: relative; 
+  isolation: isolate;
+  border-radius: 1.5rem;
+  padding: 0.4rem 1.5rem;
+  touch-action: none;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+
+.hold-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 1.5rem;
+  background: currentColor;
+  opacity: 1;
+  transform: scale(0);
+  z-index: -1;
+  transition: transform 150ms ease-out; 
+}
+
+.hold-btn.holding::before {
+  transform: scale(1);
+  transition: transform var(--hold-duration, 900ms) linear;
+}
+
+.hold-btn i {
+  transition: transform 150ms ease-out;
+}
+
+.hold-btn.holding i {
+  color: rgb(224, 224, 224);
+  transform: scale(0.85);
+  transition: transform var(--hold-duration, 900ms) ease-out;
+}
+
+.hold-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}

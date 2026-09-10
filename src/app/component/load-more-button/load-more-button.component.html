@@ -1,0 +1,9 @@
+<div class="load-more-wrapper">
+    <button type="button" class="btn btn-load-more btn-sm rounded-pill px-4" [disabled]="loading()" (click)="load.emit()">
+        @if (loading()) {
+            <span class="spinner-border spinner-border-sm me-2" role="status"></span>Loading...
+        } @else {
+            Load more...
+        }
+    </button>
+</div>

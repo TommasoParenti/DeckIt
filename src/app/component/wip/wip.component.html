@@ -1,0 +1,14 @@
+@if (variant() === 'badge') {
+  <span class="badge wip-badge">
+    <i class="ti ti-tools" aria-hidden="true"></i>
+    <span>{{ label() }}</span>
+  </span>
+} @else {
+  <div class="wip-block h-100 d-flex flex-column justify-content-center align-items-center text-center py-5 px-4">
+    <div class="wip-icon d-flex align-items-center justify-content-center rounded-circle mb-3">
+      <i class="ti ti-barrier-block fs-3" aria-hidden="true"></i>
+    </div>
+    <p class="fw-semibold fs-5 mb-1">{{ label() }}</p>
+    <p class="text-muted small mb-0">This section is still under construction, so check back soon!</p>
+  </div>
+}
