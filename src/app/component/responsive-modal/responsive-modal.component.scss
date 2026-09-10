@@ -121,7 +121,6 @@
 
   .mobile .modal-body {
     overflow-y: auto;
-    overscroll-behavior: contain;
   }
 
   .modal-stack {
@@ -130,7 +129,7 @@
 
   .floating-toolbar {
     position: absolute;
-    bottom: max(1.5rem, env(safe-area-inset-bottom));
+    bottom: calc(0.8rem + env(safe-area-inset-bottom));;
     left: 50%;
     transform: translateX(-50%);
     margin-bottom: 0;
