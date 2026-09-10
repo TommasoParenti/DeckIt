@@ -13,6 +13,46 @@
   animation: backdrop-in 180ms ease-out;
 }
 
+.modal-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(800px, calc(100% - 32px));
+}
+
+.floating-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  width: fit-content;   
+  max-width: 100%;
+  height: 3rem;
+  padding: 0.2rem 0.4rem 0.2rem 0.5rem;
+  z-index: 1080;
+  animation: modal-in 200ms ease-out;
+  transition: opacity 220ms cubic-bezier(0.25, 0.8, 0.25, 1), transform 220ms cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.floating-toolbar {
+  margin-bottom: 12px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.888);
+  border-radius: 5rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.floating-footer {
+  margin-top: 12px;
+  background: transparent !important;
+}
+
+.floating-footer-mobile {
+  margin-top: 0px;
+  margin-bottom: 12px;
+}
+
 .responsive-modal {
   position: relative;
   width: min(800px, calc(100% - 32px));
@@ -37,28 +77,6 @@
   flex: 1;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-}
-
-.modal-stack {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: min(800px, calc(100% - 32px));
-}
-
-.floating-toolbar {
-  display: flex;
-  height: 3rem;
-  padding: 0.2rem 0.5rem;
-  margin-bottom: 12px;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.888);
-  border-radius: 5rem;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-  z-index: 1080;
-  animation: modal-in 200ms ease-out;
-  transition: opacity 220ms cubic-bezier(0.25, 0.8, 0.25, 1), transform 220ms cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .modal-footer-bar {
@@ -101,8 +119,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 14px 0 20px; 
-    touch-action: none;  
+    padding: 14px 0 20px;
+    touch-action: none;
     cursor: grab;
   }
 
@@ -129,13 +147,11 @@
 
   .floating-toolbar {
     position: absolute;
-    bottom: calc(0.8rem + env(safe-area-inset-bottom));;
+    bottom: calc(0.8rem + env(safe-area-inset-bottom));
     left: 50%;
     transform: translateX(-50%);
     margin-bottom: 0;
     animation: toolbar-fade-in 200ms ease-out;
-    height: 3.5rem;
-    width: 65%;
   }
 
   .floating-toolbar.toolbar-hidden {
@@ -147,25 +163,13 @@
 }
 
 @keyframes backdrop-in {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes modal-in {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.98);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  from { opacity: 0; transform: translateY(20px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 @keyframes toolbar-fade-in {

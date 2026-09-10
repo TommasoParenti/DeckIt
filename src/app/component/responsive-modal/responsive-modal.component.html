@@ -2,7 +2,7 @@
   <div class="modal-backdrop" (mousedown)="onBackdropMouseDown($event)" (click)="onBackdropClick($event)">
     <div class="modal-stack">
       @if (showActionBar()) {
-        <div class="floating-toolbar align-items-center justify-content-center" [class.toolbar-hidden]="isDragging() || isClosing()" (click)="$event.stopPropagation()">
+        <div class="floating-bar floating-toolbar" [class.toolbar-hidden]="isDragging() || isClosing()" (click)="$event.stopPropagation()">
           <ng-content select="[modal-actions]"></ng-content>
         </div>
       }
@@ -19,13 +19,13 @@
           }
           <ng-content></ng-content>
         </div>
-
-        @if (showFooter()) {
-          <div class="modal-footer-bar" (click)="$event.stopPropagation()">
-            <ng-content select="[modal-footer]"></ng-content>
-          </div>
-        }
       </div>
+
+      @if (showFooter()) {
+        <div class="floating-bar floating-footer" [class.floating-footer-mobile]="mobileService.isMobile()" (click)="$event.stopPropagation()">
+          <ng-content select="[modal-footer]"></ng-content>
+        </div>
+      }
     </div>
   </div>
 }
