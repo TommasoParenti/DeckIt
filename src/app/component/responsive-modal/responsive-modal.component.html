@@ -2,11 +2,11 @@
   <div class="modal-backdrop" (mousedown)="onBackdropMouseDown($event)" (click)="onBackdropClick($event)">
     <div class="modal-stack">
       @if (showActionBar()) {
-        <div class="floating-bar floating-toolbar" [class.toolbar-hidden]="isDragging() || isClosing()" (click)="$event.stopPropagation()">
+        <div class="floating-bar floating-toolbar" [class.floating-toolbar-mobile]="mobileService.isMobile()" [class.toolbar-hidden]="isDragging() || isClosing()" (click)="$event.stopPropagation()">
           <ng-content select="[modal-actions]"></ng-content>
         </div>
       }
-
+      
       <div class="responsive-modal" [class.mobile]="mobileService.isMobile()" [class.desktop]="!mobileService.isMobile()" [class.dragging]="isDragging()" [style.transform]="sheetTransform()" (click)="onModalClick($event)">
         @if (mobileService.isMobile()) {
           <div class="w-100 drag-handle-zone" [class.handle-zone]="handleBc()" (touchstart)="onTouchStart($event)" (touchmove)="onTouchMove($event)" (touchend)="onTouchEnd()">

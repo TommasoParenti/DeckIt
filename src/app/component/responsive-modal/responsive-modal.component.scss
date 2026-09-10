@@ -148,7 +148,7 @@
   }
 
   .floating-toolbar {
-    position: absolute;
+    position: fixed;
     bottom: calc(1.6rem + env(safe-area-inset-bottom));
     left: 50%;
     transform: translateX(-50%);
