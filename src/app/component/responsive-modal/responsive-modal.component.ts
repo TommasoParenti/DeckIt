@@ -120,7 +120,7 @@ export class ResponsiveModalComponent {
     if(this.minTranslateY() == 0) {
       this.translateY.set(0);
     } else {
-      this.translateY.set(window.innerHeight * 0.5 - 150);
+      this.translateY.set(window.innerHeight * 0.25);
     }
   }
 
