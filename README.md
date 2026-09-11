@@ -39,7 +39,7 @@ One of the central elements of DeckIt is the **custom virtual keyboard**, design
 
 ## <img src="https://api.iconify.design/mdi:wrench-cog.svg?color=%23ffffff" width="24"/> In development
 
-### Statistics
+#### Statistics
 A section dedicated to the user's personal statistics, with information such as:
 * Number of words stored;
 * Number of categories;
@@ -48,7 +48,7 @@ A section dedicated to the user's personal statistics, with information such as:
 * Learning progress trends;
 * Streaks and progress.
 
-### Review
+#### Flashcards
 The review system will be based mainly on **flashcards**, with different types of exercises to test knowledge of words.
 
 Among the planned features:
