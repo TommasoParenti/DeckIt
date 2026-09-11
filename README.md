@@ -37,6 +37,11 @@ Words can be organized through custom categories, and in the "Categories" sectio
 #### Custom keyboard
 One of the central elements of DeckIt is the **custom virtual keyboard**, designed to make it easier to enter Japanese words and their characters. The keyboard aims to make it more immediate to write content that might be difficult to enter using only the device's traditional keyboard.
 
+<p align="center">
+  <img width="800" height="450" alt="keyboard-pc" src="https://github.com/user-attachments/assets/f182f7dc-f5a0-47b3-8534-1bd9be55c2f6" />
+</p>
+<br>
+
 ## <img src="https://api.iconify.design/mdi:wrench-cog.svg?color=%23ffffff" width="24"/> In development
 
 #### Statistics
