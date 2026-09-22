@@ -69,10 +69,10 @@
     background-color: color-mix(in srgb, var(--ink-faint) 6%, transparent);
   }
 
-  &.active {
-    border-color: #6c757d;
-    background-color: #6c757d;
-    color: #fff;
+  .icon-option.active {
+    border-color: var(--selected-color, #6c757d);
+    background-color: color-mix(in srgb, var(--selected-color, #6c757d) 15%, transparent);
+    color: var(--selected-color, #6c757d);
   }
 }
 
@@ -104,25 +104,22 @@ textarea {
 }
 
 .btn-create {
-  box-sizing: border-box; 
-  background-color: color-mix(in srgb, var(--categories) 70%, #ffa200);
-  border: 3px solid color-mix(in srgb, var(--categories) 70%, #ffffff);
+  box-sizing: border-box;
+  background-color: color-mix(in srgb, var(--selected-color) 70%, #000000);
+  border: 3px solid color-mix(in srgb, var(--selected-color, var(--categories)) 70%, #ffffff);
   color: white;
   height: 2.8rem;
   width: 100px;
-  transition: transform 0.15s ease, background-color 0.15s ease, border 0.15s ease;
+  transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
 
   &:hover {
-    background-color: color-mix(in srgb, var(--categories) 90%, #81550e);
-    border-width: 4px;
-    border-color: color-mix(in srgb, var(--categories) 80%, #000000);
+    background-color: color-mix(in srgb, var(--selected-color, var(--categories)) 90%, #81550e);
+    border-color: color-mix(in srgb, var(--selected-color, var(--categories)) 80%, #000000);
   }
 
   &:active {
-    background-color: color-mix(in srgb, var(--categories) 90%, #0e5181);
-    border-width: 5px;
-    border-color: color-mix(in srgb, var(--categories) 80%, #000000);
-    color: white;
-    transform: scale(0.90);
+    background-color: color-mix(in srgb, var(--selected-color, var(--categories)) 90%, #0e5181);
+    border-color: color-mix(in srgb, var(--selected-color, var(--categories)) 80%, #000000);
+    transform: scale(0.96);
   }
 }
