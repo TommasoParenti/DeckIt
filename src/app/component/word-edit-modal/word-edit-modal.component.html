@@ -35,9 +35,9 @@
       </div>
       <textarea id="editWordDescription" maxlength="150" class="form-control description" placeholder="Es. Common Japanese greeting meaning 'hello' or 'good afternoon.' It's typically used during the daytime, between mid-morning and early evening, and is one of the most widely recognized Japanese expressions, often used as a general-purpose greeting even outside Japan." name="editWordDescription" [(ngModel)]="description"></textarea>
     </div>
-    <div class="mb-2">
+    <div  [class.mb-2] = "!mobileService.isMobile()" [class.pb-2] = "!mobileService.isMobile()" [class.mb-5] = "mobileService.isMobile()" [class.pb-5] = "mobileService.isMobile()">
       <label class="form-label">Category</label>
-      <div class="d-flex flex-wrap gap-2 category-list">
+      <div class="d-flex flex-nowrap gap-2 category-list">
         @for (category of categoriesService.categories(); track category.name) {
             <button type="button" class="chip category-chip" [class.active]="categoryId === category.name" [style.background]="'#'+category.color" (click)="categoryId = category.name">
                 <i class="ti" [class]="category.icon"></i>
