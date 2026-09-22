@@ -1,3 +1,5 @@
+@use '../../shared/scrollbar' as *;
+
 .sidebar {
   width: 300px;
   background-color: var(--surface);
@@ -40,7 +42,7 @@
   position: absolute;
   left: 0;
   right: 0;
-  background-color: #f9f9f9;
+  background-color: #fefefe;
   border-radius: 0.7rem;
   z-index: -1;
   transition: transform 0.4s cubic-bezier(0.34, 1.4, 0.64, 1), height 0.4s ease;
@@ -209,6 +211,8 @@ i.ti {
   color: #fff;
   opacity: 0.55;
   transition: opacity 0.15s ease;
+  flex: 0 0 auto;      
+  white-space: nowrap; 
 
   &.active {
     opacity: 1;
@@ -217,26 +221,39 @@ i.ti {
 }
 
 .btn-create {
-  box-sizing: border-box; 
-  background-color: color-mix(in srgb, var(--words) 70%, #0095ff);
-  border: 3px solid color-mix(in srgb, var(--words) 70%, #ffffff);
-  color: white;
+  --bs-btn-color: #fff;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-active-color: #fff;
+  --bs-btn-disabled-color: #fff;
+
+  box-sizing: border-box;
+  background-color: color-mix(in srgb, var(--words) 75%, black 5%);
+  border: 1px solid color-mix(in srgb, var(--words) 80%, #fff);
+  border-radius: 1rem;
+  color: #fff;
   height: 2.8rem;
   width: 100px;
-  transition: transform 0.15s ease, background-color 0.15s ease, border 0.15s ease;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--words) 35%, transparent);
+  transition: transform 0.15s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 
   &:hover {
-    background-color: color-mix(in srgb, var(--words) 90%, #0e5181);
-    border-width: 5px;
-    border-color: color-mix(in srgb, var(--words) 80%, #000000);
+    color: #fff;
+    background-color: color-mix(in srgb, var(--words) 82%, white 8%);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.18);
+    transform: translateY(-2px);
   }
 
   &:active {
-    background-color: color-mix(in srgb, var(--words) 90%, #0e5181);
-    border-width: 5px;
-    border-color: color-mix(in srgb, var(--words) 80%, #000000);
-    color: white;
-    transform: scale(0.90);
+    color: #fff;
+    border: 1px solid color-mix(in srgb, var(--words) 80%, #fff);
+    background-color: color-mix(in srgb, var(--words) 75%, black 15%);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+    transform: translateY(0) scale(0.96);
+  }
+
+  &:disabled {
+    box-shadow: none;
+    opacity: 0.5;
   }
 }
 
@@ -247,25 +264,17 @@ i.ti {
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
   padding-bottom: 6px !important;
-
-  &::-webkit-scrollbar { 
-    height: 5px; 
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.15);
-    border-radius: 999px;
-  }
+  @extend %custom-scrollbar;
 }
 
 .category-list {
-  max-height: 160px;
-  overflow-y: auto;
-  align-content: flex-start;
+  overflow-x: auto;
+  overflow-y: hidden;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
-  padding-right: 4px;
+  padding-bottom: 6px;
+  @extend %custom-scrollbar;
 }
 
 .input-with-keyboard {
@@ -324,9 +333,5 @@ i.ti {
 @media (max-width: 767.98px) {
   .description {
     height: 200px;
-  }
-
-  .category-list {
-    max-height: 220px;
   }
 }

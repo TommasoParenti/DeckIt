@@ -48,7 +48,7 @@
 
     <div class="mb-3">
       <label class="form-label">Icon</label>
-      <div class="icon-picker">
+      <div class="icon-picker" [style.--selected-color]="isValidColor() ? newCategoryColor : null">
         @for (icon of iconOptions; track icon) {
         <button type="button" class="icon-option" [class.active]="newCategoryIcon === icon"
           (click)="newCategoryIcon = icon">
@@ -60,7 +60,7 @@
       <div class="form-text">All icons on <a href="https://tabler.io/icons" target="_blank" rel="noopener">tabler.io/icons</a>.</div>
     </div>
 
-    <div class="mb-4 pb-4">
+    <div [class.mb-1] = "!mobileService.isMobile()" [class.pb-1] = "!mobileService.isMobile()" [class.mb-4] = "mobileService.isMobile()" [class.pb-4] = "mobileService.isMobile()">
       <label class="form-label">Color</label>
       <div class="d-flex align-items-center gap-2 mb-2">
         <input type="color" class="color-input" name="colorPicker" [(ngModel)]="newCategoryColor" />
@@ -73,6 +73,6 @@
   </div>
 
   <div modal-footer class="d-flex gap-4 w-100 align-items-center justify-content-center pt-2 pb-2">
-    <button type="button" class="btn btn-create rounded-4 pe-4 ps-4" (click)="onCreate()" [disabled]="!isFormValid()" [class.w-100]="mobileService.isMobile()">Create</button>
+    <button type="button" class="btn btn-create rounded-4 pe-4 ps-4" [style.--selected-color]="isValidColor() ? newCategoryColor : null" (click)="onCreate()" [disabled]="!isFormValid()" [class.w-100]="mobileService.isMobile()">Create</button>
   </div>
 </app-responsive-modal>

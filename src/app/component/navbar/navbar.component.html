@@ -125,7 +125,7 @@
 
     <div class="mb-2">
       <label class="form-label">Category</label>
-      <div class="d-flex flex-wrap gap-2 category-list">
+      <div class="d-flex flex-nowrap gap-2 category-list">
         @for (category of categoriesService.categories(); track category.name) {
           <button type="button" class="chip category-chip" [class.active]="newWordCategory === category.name" [style.background]="'#'+category.color" (click)="newWordCategory = category.name">
             <i class="ti" [class]="category.icon"></i>

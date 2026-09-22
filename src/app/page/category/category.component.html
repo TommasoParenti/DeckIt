@@ -14,7 +14,7 @@
     }
   </div>
   <div class="category-header-actions ms-auto d-flex align-items-center gap-2">
-    <button type="button" class="btn-icon-header" (click)="editCategory()">
+    <button type="btn btn-primary button" class="btn-icon-header" (click)="editCategory()">
       <i class="ti ti-pencil fs-5"></i>
     </button>
     <app-hold-button class="btn-icon-header-hold border border-danger rounded-5" icon="ti ti-trash" color="danger" (holdComplete)="deleteCategory()" />
@@ -27,7 +27,7 @@
       <app-loading-spinner />
     } @else {
       @for (item of words(); track item.id; let i = $index) {
-        <app-vocabulary-card [category]="item.category" [word]="item.kanji ?? item.katakana ?? item.hiragana ?? ''" [translation]="item.translation" [spelling]="item.spelling" [description]="item.description ?? ''" (cardClick)="openVocabulary(i)" class="col-12 col-sm-6 col-md-4 col-lg-3" />
+       <app-vocabulary-card [category]="item.category" [word]="item.kanji ?? item.katakana ?? item.hiragana ?? ''" [translation]="item.translation" [spelling]="item.spelling" [description]="item.description ?? ''" [isFavourite]="item.is_favourite" (cardClick)="openVocabulary(i)" (toggleFavourite)="onToggleFavourite(item)" class="col-12 col-sm-6 col-md-4 col-lg-3" />
       } @empty {
         <div class="col-12 text-center py-5">
           <div class="mb-3">

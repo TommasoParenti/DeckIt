@@ -30,7 +30,7 @@ export class CategoriesComponent {
     'ti-cloud-rain', 'ti-sun', 'ti-book', 'ti-briefcase',
     'ti-heart-rate-monitor', 'ti-coffee', 'ti-plane', 'ti-home',
     'ti-device-gamepad-2', 'ti-music', 'ti-shopping-cart', 'ti-car',
-    'ti-palette', 'ti-camera', 'ti-gift', 'ti-pig-money'
+    'ti-palette', 'ti-camera'
   ];
   newCategoryName = '';
   newCategoryDescription = '';

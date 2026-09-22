@@ -1,5 +1,7 @@
 import { Component, computed, inject, input, output } from '@angular/core';
 import { CategoriesService } from '../../services/categories.service';
+import { splitIntoKanaUnits } from '../../shared/kana.util';
+
 
 @Component({
   selector: 'app-vocabulary-card',
@@ -9,6 +11,7 @@ import { CategoriesService } from '../../services/categories.service';
 })
 export class VocabularyCardComponent {
   private categoriesService = inject(CategoriesService);
+  protected readonly splitIntoKanaUnits = splitIntoKanaUnits;
 
   category = input('');
   word = input('');

@@ -14,6 +14,7 @@ import { LoadMoreButtonComponent } from '../../component/load-more-button/load-m
 import { WordDetailModalComponent } from '../../component/word-detail-modal/word-detail-modal.component';
 import { WordEditModalComponent } from '../../component/word-edit-modal/word-edit-modal.component';
 import { ToastService } from '../../services/toast-notifications.service';
+import { Word } from '../../core/models';
 
 @Component({
   selector: 'app-category',
@@ -164,5 +165,14 @@ export class CategoryComponent {
 
   isValidCategoryColor(): boolean {
     return this.hexColorPattern.test(this.editCategoryColor);
+  }
+
+  onToggleFavourite(word: Word): void {
+    this.wordsService.update(word.id, { is_favourite: !word.is_favourite }).subscribe({
+      error: (err) => {
+        console.error(err);
+        this.toast.error('Could not update favourite. Please try again.');
+      }
+    });
   }
 }
