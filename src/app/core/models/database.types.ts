@@ -51,21 +51,24 @@ export type Database = {
       }
       users: {
         Row: {
-          favourites: string[] | null
+          daily_actions_count: number
+          daily_actions_date: string | null
           flashcards_use: number
           id: string
           last_active_at: string | null
           streak_days: number
         }
         Insert: {
-          favourites?: string[] | null
+          daily_actions_count?: number
+          daily_actions_date?: string | null
           flashcards_use?: number
           id: string
           last_active_at?: string | null
           streak_days?: number
         }
         Update: {
-          favourites?: string[] | null
+          daily_actions_count?: number
+          daily_actions_date?: string | null
           flashcards_use?: number
           id?: string
           last_active_at?: string | null
@@ -136,9 +139,10 @@ export type Database = {
     }
     Functions: {
       increment_flashcards_use: {
-        Args: { user_id_input: string }
+        Args: never
         Returns: {
-          favourites: string[] | null
+          daily_actions_count: number
+          daily_actions_date: string | null
           flashcards_use: number
           id: string
           last_active_at: string | null
@@ -151,10 +155,11 @@ export type Database = {
           isSetofReturn: false
         }
       }
-      update_user_streak: {
-        Args: { user_id_input: string }
+      log_user_action: {
+        Args: never
         Returns: {
-          favourites: string[] | null
+          daily_actions_count: number
+          daily_actions_date: string | null
           flashcards_use: number
           id: string
           last_active_at: string | null
@@ -167,6 +172,7 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      register_daily_action: { Args: { uid: string }; Returns: undefined }
     }
     Enums: {
       [_ in never]: never
