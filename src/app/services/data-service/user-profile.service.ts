@@ -26,8 +26,8 @@ export class UserProfileService {
     );
   }
 
-  updateStreak(userId: string): Observable<UserProfile> {
-    return from(supabase.rpc('update_user_streak', { user_id_input: userId })).pipe(
+  incrementFlashcardsUse(): Observable<UserProfile> {
+    return from(supabase.rpc('increment_flashcards_use')).pipe(
       map(({ data, error }) => {
         if (error) throw error;
         return sanitizeNulls(data);
@@ -35,8 +35,8 @@ export class UserProfileService {
     );
   }
 
-  incrementFlashcardsUse(userId: string): Observable<UserProfile> {
-    return from(supabase.rpc('increment_flashcards_use', { user_id_input: userId })).pipe(
+  logAction(): Observable<UserProfile> {
+    return from(supabase.rpc('log_user_action')).pipe(
       map(({ data, error }) => {
         if (error) throw error;
         return sanitizeNulls(data);
