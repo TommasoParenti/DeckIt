@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { VocabularyCardComponent } from '../../component/vocabulary-card/vocabulary-card.component';
 import { WordDetailModalComponent } from '../../component/word-detail-modal/word-detail-modal.component';
 import { WordEditModalComponent } from '../../component/word-edit-modal/word-edit-modal.component';
@@ -9,6 +9,7 @@ import { AuthService } from '../../services/auth-service/auth.service';
 import { WordsService } from '../../services/words.service';
 import { ToastService } from '../../services/toast-notifications.service';
 import { Word } from '../../core/models';
+import { UserProfilesService } from '../../services/user-profiles.service';
 
 @Component({
   selector: 'app-vocabulary',
@@ -20,6 +21,7 @@ import { Word } from '../../core/models';
 export class VocabularyComponent {
   protected mobileService = inject(MobileService);
   protected wordsService = inject(WordsService);
+  protected userProfilesService = inject(UserProfilesService);
   private auth = inject(AuthService);
   private toast = inject(ToastService);
 
@@ -32,10 +34,31 @@ export class VocabularyComponent {
   selectedWordFull = computed(() => this.words()[this.clicked()] ?? null);
 
   readonly searchTerm = signal('');
-  nDays = 0;
-  inStreak = false;
+
+  private stuckSentinel = viewChild<ElementRef<HTMLElement>>('stuckSentinel');
+  protected isStuck = signal(false);
+
+  nDays = this.userProfilesService.streakDays;
+  inStreak = this.userProfilesService.isStreakSecuredToday;
+  nInteractions = this.userProfilesService.actionsCountedToday;
 
   protected isEditWordModalOpen = signal(false);
+
+  private readonly stuckObserver = effect((onCleanup) => {
+    const el = this.stuckSentinel()?.nativeElement;
+    if (!el) {
+      this.isStuck.set(false);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        this.isStuck.set(!entry.isIntersecting && entry.boundingClientRect.top < (entry.rootBounds?.top ?? 0));
+      },
+      { rootMargin: '-16px 0px 0px 0px', threshold: 0 } 
+    );
+    observer.observe(el);
+    onCleanup(() => observer.disconnect());
+  });
 
   constructor() {
     const user = this.auth.user();
