@@ -94,7 +94,7 @@ export class UserProfilesService {
     );
   }
 
-  clear(): void {
+  reset(): void {
     this._profile.set(null);
     this._error.set(null);
     this._loading.set(false);
