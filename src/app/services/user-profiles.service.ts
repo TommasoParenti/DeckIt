@@ -45,6 +45,8 @@ export class UserProfilesService {
     Math.min(this.actionsCountedToday() / DAILY_ACTIONS_THRESHOLD, 1)
   );
 
+  readonly daily_action_threshold = DAILY_ACTIONS_THRESHOLD;
+
   load(id: string): Observable<UserProfile> {
     this._loading.set(true);
     this._error.set(null);
