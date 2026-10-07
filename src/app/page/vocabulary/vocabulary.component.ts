@@ -22,7 +22,6 @@ export class VocabularyComponent {
   protected mobileService = inject(MobileService);
   protected wordsService = inject(WordsService);
   protected userProfilesService = inject(UserProfilesService);
-  private auth = inject(AuthService);
   private toast = inject(ToastService);
 
   words = this.wordsService.words;
@@ -61,7 +60,7 @@ export class VocabularyComponent {
   });
 
   constructor() {
-    const user = this.auth.user();
+    const user = this.userProfilesService.profile();
     if (!user) return;
     this.wordsService.load(user.id, 20).subscribe({
       error: (err) => {
@@ -72,7 +71,7 @@ export class VocabularyComponent {
   }
 
   loadMore(): void {
-    const user = this.auth.user();
+    const user = this.userProfilesService.profile();
     if (!user) return;
     this.wordsService.loadMore(user.id).subscribe({
       error: (err) => {

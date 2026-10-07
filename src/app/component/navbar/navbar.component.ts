@@ -7,7 +7,6 @@ import { CategoriesService } from '../../services/categories.service';
 import { KanaKeyboardComponent } from '../kana-keyboard/kana-keyboard.component';
 import { WordsService } from '../../services/words.service';
 import { WordInsert } from '../../core/models';
-import { AuthService } from '../../services/auth-service/auth.service';
 import { splitIntoKanaUnits } from '../../shared/kana.util';
 import { ScriptMode } from '../../shared/kana.types';
 import { ToastService } from '../../services/toast-notifications.service';
@@ -36,7 +35,6 @@ export class NavbarComponent {
   protected categoriesService = inject(CategoriesService);
   protected wordsService = inject(WordsService);
   protected userProfilesService = inject(UserProfilesService);
-  private auth = inject(AuthService);
   private toast = inject(ToastService);
 
   readonly navItems: NavItem[] = [
@@ -147,7 +145,7 @@ export class NavbarComponent {
   }
 
   onAddWord(): void {
-    const user = this.auth.user();
+    const user = this.userProfilesService.profile();
     if (!user) return;
     if (!this.isFormValid()) return;
 
