@@ -56,6 +56,7 @@ export type Database = {
           flashcards_use: number
           id: string
           last_active_at: string | null
+          name: string
           streak_days: number
         }
         Insert: {
@@ -64,6 +65,7 @@ export type Database = {
           flashcards_use?: number
           id: string
           last_active_at?: string | null
+          name?: string
           streak_days?: number
         }
         Update: {
@@ -72,6 +74,7 @@ export type Database = {
           flashcards_use?: number
           id?: string
           last_active_at?: string | null
+          name?: string
           streak_days?: number
         }
         Relationships: []
@@ -146,6 +149,7 @@ export type Database = {
           flashcards_use: number
           id: string
           last_active_at: string | null
+          name: string
           streak_days: number
         }
         SetofOptions: {
@@ -163,6 +167,7 @@ export type Database = {
           flashcards_use: number
           id: string
           last_active_at: string | null
+          name: string
           streak_days: number
         }
         SetofOptions: {
