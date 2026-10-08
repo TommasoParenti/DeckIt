@@ -52,8 +52,6 @@ export class CategoryComponent {
   editCategoryName = '';
   editCategoryIcon = '';
   editCategoryColor = '';
-  editCategoryDescription = '';
-
   private readonly hexColorPattern = /^[0-9A-Fa-f]{6}$/;
 
   constructor() {
@@ -102,7 +100,6 @@ export class CategoryComponent {
     const current = this.currentCategory();
     if (!current) return;
     this.editCategoryName = current.name;
-    this.editCategoryDescription = current.description ?? '';
     this.editCategoryIcon = current.icon ? current.icon : "";
     this.editCategoryColor = current.color;
     this.isEditCategoryModalOpen.set(true);
@@ -142,7 +139,6 @@ export class CategoryComponent {
     const updated = {
       ...current,
       name: this.editCategoryName,
-      description: this.editCategoryDescription,
       icon: this.editCategoryIcon,
       color: this.editCategoryColor,
     };

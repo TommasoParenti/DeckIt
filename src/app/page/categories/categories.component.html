@@ -7,9 +7,9 @@
       <app-loading-spinner />
     } @else {
       @for (item of categories(); track item.name) {
-      <app-category-card [icon]="item.icon" [bgColor]="item.color" [name]="item.name" [description]="item.description" [nWords]="item.words_count" class="col-6 col-md-4 col-lg-3 col-xl-2" (cardClick)="openCategory(item.name)" />
+      <app-category-card [icon]="item.icon" [bgColor]="item.color" [name]="item.name" [nWords]="item.words_count" class="col-6 col-md-4 col-lg-3 col-xl-2" (cardClick)="openCategory(item.name)" />
       }
-      <div class="min-height col-6 col-md-4 col-lg-3 col-xl-2">
+      <div class="col-6 col-md-4 col-lg-3 col-xl-2">
         <button type="button" class="btn add-category-card bg-transparent" (click)="openAddCategoryModal()">
           <i class="ti ti-plus"></i>
           <span>New Category</span>
@@ -34,16 +34,6 @@
     <div class="mb-3">
       <label for="categoryName" class="form-label">Name</label>
       <input type="text" id="categoryName" class="form-control" placeholder="Es. Adjectives" name="categoryName" [(ngModel)]="newCategoryName" />
-    </div>
-
-    <div class="mb-3">
-      <div class="d-flex justify-content-between align-items-center mb-1">
-        <label for="categoryDescription" class="form-label mb-0">Description</label>
-        <span class="text-muted small" [class.text-danger]="newCategoryDescription.length >= 90">
-          {{ newCategoryDescription.length }}/90
-        </span>
-      </div>
-      <textarea id="categoryDescription" class="form-control" rows="2" maxlength="90" placeholder="Es. Descriptive words that modify or give more information about nouns or pronouns" name="categoryDescription" [(ngModel)]="newCategoryDescription"></textarea>
     </div>
 
     <div class="mb-3">

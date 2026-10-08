@@ -33,7 +33,6 @@ export class CategoriesComponent {
     'ti-palette', 'ti-camera'
   ];
   newCategoryName = '';
-  newCategoryDescription = '';
   newCategoryIcon = this.iconOptions[0];
   newCategoryColor = "#5B7FA6";
 
@@ -47,7 +46,7 @@ export class CategoriesComponent {
   onCreate(): void {
     const user = this.userProfilesService.profile();
     if (!user) return;
-    const category: CategoryInsert = {color: this.newCategoryColor.slice(1), description: this.newCategoryDescription, icon: this.newCategoryIcon, name: this.newCategoryName, user_id: user.id};
+    const category: CategoryInsert = {color: this.newCategoryColor.slice(1), icon: this.newCategoryIcon, name: this.newCategoryName, user_id: user.id};
     this.categoriesService.create(category).subscribe({
       next: () => this.isAddCategoryModalOpen.set(false),
       error: (err) => console.error('Error', err)
@@ -72,7 +71,6 @@ export class CategoriesComponent {
 
   private resetForm(): void {
     this.newCategoryName = '';
-    this.newCategoryDescription = '';
     this.newCategoryIcon = this.iconOptions[0];
     this.newCategoryColor = "#5B7FA6";
   }
