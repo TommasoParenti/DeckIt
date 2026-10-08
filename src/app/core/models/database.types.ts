@@ -17,7 +17,6 @@ export type Database = {
       categories: {
         Row: {
           color: string
-          description: string | null
           icon: string | null
           name: string
           user_id: string
@@ -25,7 +24,6 @@ export type Database = {
         }
         Insert: {
           color?: string
-          description?: string | null
           icon?: string | null
           name: string
           user_id: string
@@ -33,7 +31,6 @@ export type Database = {
         }
         Update: {
           color?: string
-          description?: string | null
           icon?: string | null
           name?: string
           user_id?: string
