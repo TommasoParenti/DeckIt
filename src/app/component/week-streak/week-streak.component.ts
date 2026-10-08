@@ -1,4 +1,5 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
+import { MobileService } from '../../services/mobile.service';
 
 interface WeekDay {
   key: number;
@@ -33,21 +34,26 @@ function dayNumber(d: Date): number {
   styleUrl: './week-streak.component.scss'
 })
 export class WeekStreakComponent {
-  readonly lastActiveDate = input<Date | string | number>(new Date());
+  protected mobileService = inject(MobileService);
+
+  readonly lastActiveDate = input<Date | string | number | null | undefined>(null);
   readonly streakDays = input<number>(0);
  
   readonly days = computed<WeekDay[]>(() => {
     const today = new Date();
     const todayNum = dayNumber(today);
+
     const todayIndex = (today.getDay() + 6) % 7;
     const mondayNum = todayNum - todayIndex;
-    const lastActiveNum = dayNumber(new Date(this.lastActiveDate()));
+
+    const last = this.lastActiveDate();
+    const lastActiveNum = last == null ? null : dayNumber(new Date(last));
     const streak = Math.max(0, Math.floor(this.streakDays()));
- 
+
     return DAYS.map((d, i) => {
       const num = mondayNum + i;
       const date = new Date(num * MS_PER_DAY);
-      const daysFromLastActive = lastActiveNum - num;
+      const daysFromLastActive = lastActiveNum === null ? -1 : lastActiveNum - num;
       return {
         key: num,
         short: d.short,

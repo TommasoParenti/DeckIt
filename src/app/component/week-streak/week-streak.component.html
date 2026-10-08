@@ -1,12 +1,14 @@
-<ul class="list-unstyled d-flex justify-content-between gap-2 m-0 p-0" role="list">
+<ul class="week list-unstyled m-0 p-0" role="list">
     @for (day of days(); track day.key) {
-        <li class="day flex-fill d-flex flex-column align-items-center py-2 rounded-3 small" [class.day-today]="day.today" [class.fw-semibold]="day.today" [class.text-body-emphasis]="day.today" [class.text-body-secondary]="!day.today" >
-            <div class="d-flex flex-row small gap-1 mb-0 lh-1">
-                <span class="opacity-75">{{ day.month }}</span>
-                <span class="opacity-75">{{ day.date }}</span>
-            </div>
-            <span class="mb-2" style="font-size: 1.2rem;">{{ day.short }}</span>
-            <span class="dot rounded-circle" [class.bg-danger]="day.active" [class.bg-secondary-subtle]="!day.active" role="img"></span>
+        <li class="day d-flex flex-column align-items-center rounded-3" [class.w-50]="!mobileService.isMobile()" [class.w-100]="mobileService.isMobile()" [class.shadow-sm]="day.today" [class.today]="day.today" [class.text-body-secondary]="!day.today" >
+            <span class="day_date opacity-75">
+                @if(!mobileService.isMobile()) {
+                    <span class="day_month">{{ day.month }}</span> 
+                }
+                {{ day.date }}
+            </span>
+            <span class="day_name">{{ day.short }}</span>
+            <span class="dot rounded-circle" [class.bg-danger]="day.active" [class.bg-secondary-subtle]="!day.active"></span>
         </li>
     }
 </ul>
