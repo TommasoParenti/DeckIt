@@ -47,8 +47,10 @@ export class NavbarComponent {
   nDays = this.userProfilesService.streakDays;
   inStreak = this.userProfilesService.isStreakSecuredToday;
   nInteractions = this.userProfilesService.actionsCountedToday;
-
   progressPercent = computed(() => Math.min(100, Math.round((this.nInteractions() * 100) / this.userProfilesService.daily_action_threshold)));
+  protected readonly dailyThreshold = this.userProfilesService.daily_action_threshold;
+  readonly goalReached = computed(() => this.nInteractions() >= this.dailyThreshold);
+  
   readonly searchTerm = signal('');
   readonly search = output<string>();
 
