@@ -5,7 +5,7 @@
                 <span class="opacity-75">{{ day.month }}</span>
                 <span class="opacity-75">{{ day.date }}</span>
             </div>
-            <span class="mb-2 fs-5">{{ day.short }}</span>
+            <span class="mb-2" style="font-size: 1.2rem;">{{ day.short }}</span>
             <span class="dot rounded-circle" [class.bg-danger]="day.active" [class.bg-secondary-subtle]="!day.active" role="img"></span>
         </li>
     }
