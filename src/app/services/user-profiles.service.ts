@@ -105,7 +105,7 @@ export class UserProfilesService {
   private requireId(): string {
     const id = this._profile()?.id;
     if (!id) {
-      throw new Error('UserProfileStore: nessun profilo caricato, chiama load(id) prima.');
+      throw new Error('UserProfileStore: no profile loaded, call load(id).');
     }
     return id;
   }
