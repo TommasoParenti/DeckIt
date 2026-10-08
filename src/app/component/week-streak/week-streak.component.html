@@ -1,0 +1,12 @@
+<ul class="list-unstyled d-flex justify-content-between gap-2 m-0 p-0" role="list">
+    @for (day of days(); track day.key) {
+        <li class="day flex-fill d-flex flex-column align-items-center py-2 rounded-3 small" [class.day-today]="day.today" [class.fw-semibold]="day.today" [class.text-body-emphasis]="day.today" [class.text-body-secondary]="!day.today" >
+            <div class="d-flex flex-row small gap-1 mb-0 lh-1">
+                <span class="opacity-75">{{ day.month }}</span>
+                <span class="opacity-75">{{ day.date }}</span>
+            </div>
+            <span class="mb-2 fs-5">{{ day.short }}</span>
+            <span class="dot rounded-circle" [class.bg-danger]="day.active" [class.bg-secondary-subtle]="!day.active" role="img"></span>
+        </li>
+    }
+</ul>
