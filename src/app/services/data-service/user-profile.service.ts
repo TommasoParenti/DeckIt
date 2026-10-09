@@ -4,6 +4,12 @@ import { UserProfile, UserProfileUpdate } from '../../core/models';
 import { supabase } from '../../core/supabase.client';
 import { sanitizeNulls } from '../../core/supabase-utils';
 
+function todayISODate(): string {
+  const now = new Date();
+  const offset = now.getTimezoneOffset();
+  return new Date(now.getTime() - offset * 60000).toISOString().slice(0, 10);
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -27,7 +33,7 @@ export class UserProfileService {
   }
 
   incrementFlashcardsUse(): Observable<UserProfile> {
-    return from(supabase.rpc('increment_flashcards_use')).pipe(
+    return from(supabase.rpc('increment_flashcards_use', { p_today: todayISODate() })).pipe(
       map(({ data, error }) => {
         if (error) throw error;
         return sanitizeNulls(data);
@@ -36,7 +42,7 @@ export class UserProfileService {
   }
 
   logAction(): Observable<UserProfile> {
-    return from(supabase.rpc('log_user_action')).pipe(
+    return from(supabase.rpc('log_user_action', { p_today: todayISODate() })).pipe(
       map(({ data, error }) => {
         if (error) throw error;
         return sanitizeNulls(data);

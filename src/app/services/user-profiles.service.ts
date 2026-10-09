@@ -11,6 +11,11 @@ function todayISODate(): string {
   return new Date(now.getTime() - offset * 60000).toISOString().slice(0, 10);
 }
 
+function shiftISODate(iso: string, days: number): string {
+  const [y, m, d] = iso.split('-').map(Number);
+  return new Date(Date.UTC(y, m - 1, d + days)).toISOString().slice(0, 10);
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -25,7 +30,16 @@ export class UserProfilesService {
   readonly loading = this._loading.asReadonly();
   readonly error = this._error.asReadonly();
 
-  readonly streakDays = computed(() => this._profile()?.streak_days ?? 0);
+  readonly streakDays = computed(() => {
+    const profile = this._profile();
+    const last = profile?.last_active_at;
+    if (!profile || !last) return 0;
+
+    const today = todayISODate();
+    const alive = last === today || last === shiftISODate(today, -1);
+    return alive ? profile.streak_days : 0;
+  });
+  
   readonly flashcardsUse = computed(() => this._profile()?.flashcards_use ?? 0);
   readonly dailyActionsCount = computed(() => this._profile()?.daily_actions_count ?? 0);
   readonly dailyActionsDate = computed(() => this._profile()?.daily_actions_date ?? null);
