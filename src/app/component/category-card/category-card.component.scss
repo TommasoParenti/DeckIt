@@ -7,21 +7,30 @@
   --bs-card-bg: color-mix(in srgb, var(--accent) 82%, black);
   min-height: 11rem;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {
-      transform: translateY(-3px);
+      transform: translateY(-4px);
       box-shadow: var(--bs-box-shadow-sm);
 
-      .cat-card__bg-icon {
+      .cat-card_bg-icon {
         transform: translate(15%, 20%) rotate(0deg) scale(1.08);
       }
     }
   }
+
+  &:active,
+  &.is-pressed {
+    transform: scale(0.97);
+
+    .cat-card_bg-icon {
+      transform: translate(15%, 20%) rotate(0deg) scale(1.08);
+    }
+  }
 }
 
-.cat-card__bg-icon {
+.cat-card_bg-icon {
   font-size: 7.5rem;
   line-height: 1;
   transform: translate(15%, 20%) rotate(-12deg);
