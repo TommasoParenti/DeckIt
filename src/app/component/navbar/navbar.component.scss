@@ -114,32 +114,12 @@
   }
 }
 
-.stat-card {
-  background-color: #FFFFFF;
-  height: 5.5rem;
-  width: 50%;
-}
+.today-card {
+  background-color: #fff;
 
-.stat-icon-words {
-  color: var(--accent-words);
-}
-
-.stat-icon-categories {
-  color: var(--accent-categories);
-}
-
-.words-bubble {
-  height: 2rem;
-  width: 2rem;
-  border-radius: 100%;
-  background-color: var(--accent-words-washed);
-}
-
-.categories-bubble {
-  height: 2rem;
-  width: 2rem;
-  border-radius: 100%;
-  background-color: var(--accent-categories-washed);
+  .progress {
+    --bs-progress-height: 0.4rem;
+  }
 }
 
 .btn-add-not-fab {

@@ -4,11 +4,15 @@ import { Word, WordInsert, WordUpdate } from '../core/models';
 import { WordService } from './data-service/word.service';
 import { CategoriesService } from './categories.service';
 import { PagedWordList } from '../shared/paged-word-list';
+import { UserProfilesService } from './user-profiles.service';
+import { ToastService } from './toast-notifications.service';
 
 @Injectable({ providedIn: 'root' })
 export class WordsService {
   private wordService = inject(WordService);
   private categoriesService = inject(CategoriesService);
+  private userProfilesService = inject(UserProfilesService);
+  private toast = inject(ToastService);
 
   private allWords = new PagedWordList();
   private categoryWords = new PagedWordList();
@@ -69,6 +73,13 @@ export class WordsService {
         if (created.category === this.currentCategory) {
           this.categoryWords.add(created);
         }
+
+        this.userProfilesService.logAction().subscribe({
+          error: (err) => {
+            console.error(err);
+            this.toast.error("Couldn't log your action. Try another one to keep your streak going.");
+          }
+        });
       })
     );
   }
@@ -97,6 +108,13 @@ export class WordsService {
             this.categoryWords.add(updated);
           }
         }
+
+        this.userProfilesService.logAction().subscribe({
+          error: (err) => {
+            console.error(err);
+            this.toast.error("Couldn't log your action. Try another one to keep your streak going.");
+          }
+        });
       })
     );
   }
