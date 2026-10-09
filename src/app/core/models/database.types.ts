@@ -139,7 +139,7 @@ export type Database = {
     }
     Functions: {
       increment_flashcards_use: {
-        Args: never
+        Args: { p_today: string }
         Returns: {
           daily_actions_count: number
           daily_actions_date: string | null
@@ -157,7 +157,7 @@ export type Database = {
         }
       }
       log_user_action: {
-        Args: never
+        Args: { p_today: string }
         Returns: {
           daily_actions_count: number
           daily_actions_date: string | null
@@ -174,7 +174,10 @@ export type Database = {
           isSetofReturn: false
         }
       }
-      register_daily_action: { Args: { uid: string }; Returns: undefined }
+      register_daily_action: {
+        Args: { p_today: string; uid: string }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
