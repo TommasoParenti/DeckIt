@@ -40,6 +40,11 @@ export class VocabularyComponent {
   nDays = this.userProfilesService.streakDays;
   inStreak = this.userProfilesService.isStreakSecuredToday;
   nInteractions = this.userProfilesService.actionsCountedToday;
+  protected readonly dailyThreshold = this.userProfilesService.daily_action_threshold;
+  protected readonly progressPercent = computed(() =>
+    Math.min(100, Math.round((this.nInteractions() * 100) / Math.max(1, this.dailyThreshold)))
+  );
+  protected readonly goalReached = computed(() => this.nInteractions() >= this.dailyThreshold);
 
   protected isEditWordModalOpen = signal(false);
 
