@@ -7,10 +7,10 @@ import { CategoriesService } from '../../services/categories.service';
 import { KanaKeyboardComponent } from '../kana-keyboard/kana-keyboard.component';
 import { WordsService } from '../../services/words.service';
 import { WordInsert } from '../../core/models';
-import { AuthService } from '../../services/auth-service/auth.service';
 import { splitIntoKanaUnits } from '../../shared/kana.util';
 import { ScriptMode } from '../../shared/kana.types';
 import { ToastService } from '../../services/toast-notifications.service';
+import { UserProfilesService } from '../../services/user-profiles.service';
 
 const SMALL_YOON = new Set(['ゃ', 'ゅ', 'ょ', 'ャ', 'ュ', 'ョ']);
 const SOKUON = new Set(['っ', 'ッ']);
@@ -34,7 +34,7 @@ export class NavbarComponent {
   private destroyRef = inject(DestroyRef);
   protected categoriesService = inject(CategoriesService);
   protected wordsService = inject(WordsService);
-  private auth = inject(AuthService);
+  protected userProfilesService = inject(UserProfilesService);
   private toast = inject(ToastService);
 
   readonly navItems: NavItem[] = [
@@ -44,13 +44,13 @@ export class NavbarComponent {
     { path: '/statistics', icon: 'ti-chart-bar', label: 'Statistics' },
   ];
 
-  // Placeholder stats. Once the backend exists, these should stop being plain fields and instead come from injected services
-  nDays = 0;
-  inStreak = false;
-  nInteractions = signal(3);
-  readonly maxReps = 5;
-
-  progressPercent = computed(() => Math.min(100, Math.round((this.nInteractions() * 100) / this.maxReps)));
+  nDays = this.userProfilesService.streakDays;
+  inStreak = this.userProfilesService.isStreakSecuredToday;
+  nInteractions = this.userProfilesService.actionsCountedToday;
+  progressPercent = computed(() => Math.min(100, Math.round((this.nInteractions() * 100) / this.userProfilesService.daily_action_threshold)));
+  protected readonly dailyThreshold = this.userProfilesService.daily_action_threshold;
+  readonly goalReached = computed(() => this.nInteractions() >= this.dailyThreshold);
+  
   readonly searchTerm = signal('');
   readonly search = output<string>();
 
@@ -147,7 +147,7 @@ export class NavbarComponent {
   }
 
   onAddWord(): void {
-    const user = this.auth.user();
+    const user = this.userProfilesService.profile();
     if (!user) return;
     if (!this.isFormValid()) return;
 

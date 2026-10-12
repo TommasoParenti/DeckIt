@@ -8,5 +8,6 @@ import { Component, input } from '@angular/core';
 })
 export class WipComponent {
   label = input('Work in progress');
+  description = input('This section is still under construction, so check back soon!');
   variant = input<'badge' | 'block'>('badge');
 }

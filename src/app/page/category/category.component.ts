@@ -15,6 +15,7 @@ import { WordDetailModalComponent } from '../../component/word-detail-modal/word
 import { WordEditModalComponent } from '../../component/word-edit-modal/word-edit-modal.component';
 import { ToastService } from '../../services/toast-notifications.service';
 import { Word } from '../../core/models';
+import { UserProfilesService } from '../../services/user-profiles.service';
 
 @Component({
   selector: 'app-category',
@@ -28,7 +29,7 @@ export class CategoryComponent {
   protected wordsService = inject(WordsService);
   protected categoriesService = inject(CategoriesService);
   protected mobileService = inject(MobileService);
-  private auth = inject(AuthService);
+  protected userProfilesService = inject(UserProfilesService);
   private router = inject(Router);
   private toast = inject(ToastService);
 
@@ -51,13 +52,11 @@ export class CategoryComponent {
   editCategoryName = '';
   editCategoryIcon = '';
   editCategoryColor = '';
-  editCategoryDescription = '';
-
   private readonly hexColorPattern = /^[0-9A-Fa-f]{6}$/;
 
   constructor() {
     effect(() => {
-      const user = this.auth.user();
+      const user = this.userProfilesService.profile();
       if (!user) return;
       this.wordsService.loadByCategory(this.category(), user.id, 20).subscribe({
         error: (err) => {
@@ -69,7 +68,7 @@ export class CategoryComponent {
   }
 
   loadMore(): void {
-    const user = this.auth.user();
+    const user = this.userProfilesService.profile();
     if (!user) return;
     this.wordsService.loadMoreByCategory(user.id).subscribe({
       error: (err) => {
@@ -82,7 +81,7 @@ export class CategoryComponent {
   deleteCategory(): void {
     const current = this.currentCategory();
     if (!current) return;
-    const user = this.auth.user();
+    const user = this.userProfilesService.profile();
     if (!user) return;
 
     this.categoriesService.delete(user.id, current.name).subscribe({
@@ -101,7 +100,6 @@ export class CategoryComponent {
     const current = this.currentCategory();
     if (!current) return;
     this.editCategoryName = current.name;
-    this.editCategoryDescription = current.description ?? '';
     this.editCategoryIcon = current.icon ? current.icon : "";
     this.editCategoryColor = current.color;
     this.isEditCategoryModalOpen.set(true);
@@ -135,13 +133,12 @@ export class CategoryComponent {
   onSaveEditCategory(): void {
     const current = this.currentCategory();
     if (!current) return;
-    const user = this.auth.user();
+    const user = this.userProfilesService.profile();
     if (!user) return;
 
     const updated = {
       ...current,
       name: this.editCategoryName,
-      description: this.editCategoryDescription,
       icon: this.editCategoryIcon,
       color: this.editCategoryColor,
     };

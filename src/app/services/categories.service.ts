@@ -2,12 +2,16 @@ import { inject, Injectable, signal } from '@angular/core';
 import { finalize, Observable, of, tap } from 'rxjs';
 import { Category, CategoryInsert } from '../core/models';
 import { CategoryService } from './data-service/category.service';
+import { UserProfilesService } from './user-profiles.service';
+import { ToastService } from './toast-notifications.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoriesService {
   private categoryService = inject(CategoryService);
+  private userProfilesService = inject(UserProfilesService);
+  private toast = inject(ToastService);
 
   private _categories = signal<Category[]>([]);
   private _loading = signal(true);
@@ -38,7 +42,15 @@ export class CategoriesService {
 
   create(category: CategoryInsert): Observable<Category> {
     return this.categoryService.create(category).pipe(
-      tap(created => this._categories.update(list => [...list, created]))
+      tap(created => {
+        this._categories.update(list => [...list, created]);
+        this.userProfilesService.logAction().subscribe({
+          error: (err) => {
+            console.error(err);
+            this.toast.error("Couldn't log your action. Try another one to keep your streak going.");
+          }
+        });
+      })
     );
   }
 

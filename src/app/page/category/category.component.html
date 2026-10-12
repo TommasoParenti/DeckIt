@@ -9,9 +9,6 @@
   }
   <div class="category-header-text">
     <h1 class="category-title">{{ category() }}</h1>
-    @if (currentCategory()?.description) {
-      <p class="category-description mb-0">{{ currentCategory()?.description }}</p>
-    }
   </div>
   <div class="category-header-actions ms-auto d-flex align-items-center gap-2">
     <button type="btn btn-primary button" class="btn-icon-header" (click)="editCategory()">
@@ -55,15 +52,6 @@
     <div class="mb-3">
       <label for="editCategoryName" class="form-label">Name</label>
       <input type="text" id="editCategoryName" class="form-control" name="editCategoryName" [(ngModel)]="editCategoryName" />
-    </div>
-    <div class="mb-3">
-      <div class="d-flex justify-content-between align-items-center mb-1">
-        <label for="editCategoryDescription" class="form-label mb-0">Description</label>
-        <span class="text-muted small" [class.text-danger]="editCategoryDescription.length >= 90">
-          {{ editCategoryDescription.length }}/90
-        </span>
-      </div>
-      <textarea id="editCategoryDescription" class="form-control" rows="2" maxlength="90" name="editCategoryDescription" [(ngModel)]="editCategoryDescription"></textarea>
     </div>
     <div class="mb-3">
       <label for="editCategoryIcon" class="form-label">Icon</label>

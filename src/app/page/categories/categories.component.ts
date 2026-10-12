@@ -3,11 +3,11 @@ import { CategoryCardComponent } from '../../component/category-card/category-ca
 import { FormsModule } from '@angular/forms';
 import { CategoriesService } from '../../services/categories.service';
 import { CategoryInsert } from '../../core/models';
-import { AuthService } from '../../services/auth-service/auth.service';
 import { MobileService } from '../../services/mobile.service';
 import { Router } from '@angular/router';
 import { ResponsiveModalComponent } from '../../component/responsive-modal/responsive-modal.component';
 import { LoadingSpinnerComponent } from '../../component/loading-spinner/loading-spinner.component';
+import { UserProfilesService } from '../../services/user-profiles.service';
 
 @Component({
   selector: 'app-categories',
@@ -18,7 +18,7 @@ import { LoadingSpinnerComponent } from '../../component/loading-spinner/loading
 })
 export class CategoriesComponent {
   protected categoriesService = inject(CategoriesService);
-  private auth = inject(AuthService);
+    protected userProfilesService = inject(UserProfilesService);
   private router = inject(Router);
   protected mobileService = inject(MobileService);
 
@@ -33,7 +33,6 @@ export class CategoriesComponent {
     'ti-palette', 'ti-camera'
   ];
   newCategoryName = '';
-  newCategoryDescription = '';
   newCategoryIcon = this.iconOptions[0];
   newCategoryColor = "#5B7FA6";
 
@@ -45,9 +44,9 @@ export class CategoriesComponent {
   }
 
   onCreate(): void {
-    const user = this.auth.user();
+    const user = this.userProfilesService.profile();
     if (!user) return;
-    const category: CategoryInsert = {color: this.newCategoryColor.slice(1), description: this.newCategoryDescription, icon: this.newCategoryIcon, name: this.newCategoryName, user_id: user.id};
+    const category: CategoryInsert = {color: this.newCategoryColor.slice(1), icon: this.newCategoryIcon, name: this.newCategoryName, user_id: user.id};
     this.categoriesService.create(category).subscribe({
       next: () => this.isAddCategoryModalOpen.set(false),
       error: (err) => console.error('Error', err)
@@ -72,7 +71,6 @@ export class CategoriesComponent {
 
   private resetForm(): void {
     this.newCategoryName = '';
-    this.newCategoryDescription = '';
     this.newCategoryIcon = this.iconOptions[0];
     this.newCategoryColor = "#5B7FA6";
   }

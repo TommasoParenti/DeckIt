@@ -5,6 +5,7 @@ import { User } from '@supabase/supabase-js';
 import { WordsService } from '../words.service';
 import { Subscription, take } from 'rxjs';
 import { ToastService } from '../toast-notifications.service';
+import { UserProfilesService } from '../user-profiles.service';
 
 const APP_EMAIL = 'tommaso10parenti@gmail.com';
 
@@ -12,6 +13,7 @@ const APP_EMAIL = 'tommaso10parenti@gmail.com';
 export class AuthService {
   private categoriesService = inject(CategoriesService);
   private wordsService = inject(WordsService);
+  private userProfilesService = inject(UserProfilesService);
   private toast = inject(ToastService);
 
   private _user = signal<User | null>(null);
@@ -19,6 +21,7 @@ export class AuthService {
 
   private categoriesSub?: Subscription;
   private wordsSub?: Subscription;
+  private userProfileSub?: Subscription;
 
   constructor() {
     supabase.auth.onAuthStateChange((event, session) => {
@@ -27,8 +30,10 @@ export class AuthService {
         case 'SIGNED_OUT':
           this.categoriesSub?.unsubscribe();
           this.wordsSub?.unsubscribe();
+          this.userProfileSub?.unsubscribe();
           this.categoriesService.reset();
           this.wordsService.reset();
+          this.userProfilesService.reset();
           break;
         case 'SIGNED_IN':
         case 'INITIAL_SESSION':
@@ -43,6 +48,7 @@ export class AuthService {
   private loadUserData(userId: string): void {
     this.categoriesSub?.unsubscribe();
     this.wordsSub?.unsubscribe();
+    this.userProfileSub?.unsubscribe();
 
     this.categoriesSub = this.categoriesService.load(userId, true)
       .pipe(take(1))
@@ -59,6 +65,15 @@ export class AuthService {
         error: (err) => {
           console.error(err);
           this.toast.error('Could not load the words. Please try again.');
+        }
+      });
+
+    this.userProfileSub = this.userProfilesService.load(userId)
+      .pipe(take(1))
+      .subscribe({
+        error: (err) => {
+          console.error(err);
+          this.toast.error('Could not load the user profile. Please try again.');
         }
       });
   }
